@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Map, {
   Marker,
   Popup,
@@ -7,6 +7,8 @@ import Map, {
   ScaleControl,
   GeolocateControl,
 } from "react-map-gl";
+import { collection, getDocs, query } from "firebase/firestore";
+import { database } from "../config/firebase";
 import data from "../pages/data";
 
 interface Result {
@@ -16,8 +18,7 @@ interface Result {
   }[];
 }
 
-type House ={ 
-  result: {
+type House = {
   img: string;
   location: string;
   title: string;
@@ -25,12 +26,14 @@ type House ={
   star: number;
   price: string;
   total: string;
-  long: number;
-  lat: number;
+  coordinates: {
+    _lat: number
+    _long: number
   }
-}
+};
 
 const MapComponent: React.FC<Result> = () => {
+  const [homes, setHomes] = useState<House[]>([]);
   const [selectedHouse, setSelectedHouse] = useState({} as House);
   const [viewport, setViewport] = useState({
     latitude: 40,
@@ -39,7 +42,23 @@ const MapComponent: React.FC<Result> = () => {
     bearing: 0,
     pitch: 0,
   });
-  console.log(selectedHouse);
+  console.log(homes);
+
+  useEffect(() => {
+    const base = async () => {
+      const q = query(collection(database, "homes"));
+
+      const querySnapshot = await getDocs(q);
+      const homesArray: any[] = [];
+      querySnapshot.forEach((doc) => {
+        // doc.data() is never undefined for query doc snapshots
+        homesArray.push(doc.data());
+      });
+      setHomes(homesArray as any[]);
+    };
+    base();
+  }, []);
+
   return (
     <Map
       mapStyle="mapbox://styles/selah4416/cl8y19tzx004q14nrh3xove2s"
@@ -51,24 +70,24 @@ const MapComponent: React.FC<Result> = () => {
       <FullscreenControl position="top-left" />
       <NavigationControl position="top-left" />
       <ScaleControl />
-      {data?.map((result) => (
-        <div key={result.lat}>
-          <Marker longitude={result.long} latitude={result.lat} anchor="bottom">
+      {homes?.map((result: House) => (
+        <div key={result.coordinates._lat}>
+          <Marker longitude={result.coordinates._long} latitude={result.coordinates._lat} anchor="bottom">
             <p
               className="cursor-pointer text-2xl animate-bounce"
-              onClick={() => setSelectedHouse({ result })}
+              onClick={() => setSelectedHouse(result)}
             >
               📌
             </p>
           </Marker>
 
-          {selectedHouse?.result?.long == result.long ? (
+          {selectedHouse?.coordinates?._long == result.coordinates._long ? (
             <Popup
               closeOnClick={false}
               onClose={() => setSelectedHouse({} as House)}
               anchor="top"
-              longitude={result.long}
-              latitude={result.lat}
+              longitude={result.coordinates._long}
+              latitude={result.coordinates._lat}
             >
               <p className="text-xl">waza</p>
             </Popup>
