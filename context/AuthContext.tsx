@@ -29,6 +29,7 @@ export const AuthContextProvider = ({
             uid: user.uid,
             email: user.email,
             displayName: user.displayName,
+            photoURL: user.photoURL
           })
           //anything else you want to happen when the user signs in
         } else {
