@@ -1,6 +1,8 @@
 import React from 'react'
+import { useAuth } from '../context/AuthContext'
 
 const Navbar = () => {
+  const { user, logOut } = useAuth()
   return (
     <div className='light w-full fixed top-0'>
 
@@ -15,6 +17,8 @@ const Navbar = () => {
         <span className="sr-only">Open user menu</span>
         <img className="w-8 h-8 rounded-full" src="/docs/images/people/profile-picture-3.jpg" alt="user photo"/>
       </button>
+      {user && <p>logged in</p>}
+      <button onClick={logOut}>Log out</button>
       {/* Dropdown menu */}
       <div className="hidden z-50 my-4 text-base list-none bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600" id="user-dropdown" style={{position: "absolute" , inset: "0px auto auto 0px", margin: "0px", transform: "translate(0px, 10px)"}} data-popper-reference-hidden="" data-popper-escaped="" data-popper-placement="bottom">
         <div className="py-3 px-4">
