@@ -2,10 +2,15 @@ import React, { useCallback, useState } from "react";
 import { Map, Marker } from "react-map-gl";
 import type { MarkerDragEvent, LngLat } from "react-map-gl";
 import { doc, GeoPoint, setDoc } from "firebase/firestore";
-import { database } from "../config/firebase";
+import { database, storage } from "../config/firebase";
 import Navbar from "../components/Navbar";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import { useAuth } from "../context/AuthContext";
+import { User } from "firebase/auth";
+
 
 const AddListing = () => {
+  const { user } = useAuth()
   const [marker, setMarker] = useState({
     latitude: 40,
     longitude: -100,
@@ -25,9 +30,26 @@ const AddListing = () => {
   const [address, setAddress] = useState("");
   const [price, setPrice] = useState(0);
   const [type, setType] = useState("");
+  const [homePics, setHomePics] = useState<File[]>([])
+  const [homePicURLs, setHomePicURLs] = useState<string[]>([])
+  const [loading, setLoading] = useState(false)
+  const [phoneNumber, setPhoneNumber] = useState(0)
+
+  const upload = async (file: File, user: User) => {
+    const fileRef = ref(storage, `homes/${file.name}` + '.png')
+    setLoading(true)
+    const snapShot = await uploadBytes(fileRef, file)
+    const photoURL = await getDownloadURL(fileRef)
+    setHomePicURLs(prev => prev.concat(photoURL))
+    setLoading(false)
+    console.log("succesfully uploaded")
+  }
 
   const publishListing = async () => {
     console.log("publishing")
+    console.log(homePics)
+    
+    Array.from(homePics).forEach(async (pic) => await upload(pic, user))
     await setDoc(doc(database, "homes", title), {
       address: address,
       area: area,
@@ -35,10 +57,12 @@ const AddListing = () => {
       bedrooms: bedrooms,
       price: price,
       for: type,
-      coordinates: new GeoPoint(round5(events.onDrag?.lat), round5(events.onDrag?.lng))
+      coordinates: new GeoPoint(round5(events.onDrag?.lat), round5(events.onDrag?.lng)),
+      pictures: homePicURLs,
+      phone: phoneNumber
     });
   };
-
+  console.log(homePicURLs)
   const onMarkerDragStart = useCallback((event: MarkerDragEvent) => {
     logEvents((_events) => ({ ..._events, onDragStart: event.lngLat }));
   }, []);
@@ -59,6 +83,12 @@ const AddListing = () => {
   function round5(value: number) {
     return parseFloat((Math.round(value * 1e5) / 1e5).toFixed(5));
   }
+
+  const handleChange = (e: any) => {
+    if (e.target.files[0]) {
+        setHomePics(e.target.files)
+    }
+  };
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-center py-2">
@@ -156,7 +186,18 @@ const AddListing = () => {
             id=""
           />
         </div>
-        <button onClick={publishListing}>Publish</button>
+        <div>
+          Phone number{" "}
+          <input
+            type="number"
+            name=""
+            value={phoneNumber}
+            onChange={(e) => setPhoneNumber(parseInt(e.target.value))}
+            id=""
+          />
+        </div>
+        <div>Upload pictures <input type="file" name="" id="" multiple={true} onChange={handleChange} /></div>
+        <button disabled={loading || homePics.length == 0} onClick={publishListing}>Publish</button>
       </main>
     </div>
   );
