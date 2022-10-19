@@ -10,7 +10,6 @@ const User = () => {
   const [loading, setLoading] = useState(false)
   const { user } = useAuth();
   useEffect(() => {
-    console.log(user);
     if (user && user.photoURL) {
       setPhotoURL(user.photoURL);
     }

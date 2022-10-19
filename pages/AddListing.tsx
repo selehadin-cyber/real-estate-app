@@ -91,9 +91,9 @@ const AddListing = () => {
   };
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center py-2">
+    <div className="flex min-h-screen flex-col items-center justify-center my-1">
       <Navbar />
-      <main className="h-96 w-full ">
+      <main className="h-96 w-full mt-[-150px]">
         <Map
           mapStyle="mapbox://styles/selah4416/cl8y19tzx004q14nrh3xove2s"
           mapboxAccessToken="pk.eyJ1Ijoic2VsYWg0NDE2IiwiYSI6ImNsOHY1NmR1eTBhaTgzcW80NHp1MjRvMjkifQ.TGbUXQquNidfFwgvlNHh8w"

@@ -4,9 +4,9 @@ import { useAuth } from '../context/AuthContext'
 const Navbar = () => {
   const { user, logOut } = useAuth()
   return (
-    <div className='light w-full fixed top-0'>
+    <div className='light w-full fixed top-0 z-50'>
 
-<nav className="bg-white border-gray-200 px-2 sm:px-4 py-2.5 rounded dark:bg-gray-900">
+<nav className="bg-white border-gray-200 px-2 sm:px-4 py-2.5 dark:bg-gray-900">
   <div className="container flex flex-wrap justify-between items-center mx-auto">
   <a href="https://flowbite.com/" className="flex items-center">
       <img src="https://flowbite.com/docs/images/logo.svg" className="mr-3 h-6 sm:h-9" alt="Flowbite Logo"></img>
@@ -15,7 +15,7 @@ const Navbar = () => {
   <div className="flex items-center md:order-2">
       <button type="button" className="flex mr-3 text-sm bg-gray-800 rounded-full md:mr-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600" id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown" data-dropdown-placement="bottom">
         <span className="sr-only">Open user menu</span>
-        <img className="w-8 h-8 rounded-full" src="/docs/images/people/profile-picture-3.jpg" alt="user photo"/>
+        <img className="w-8 h-8 rounded-full" src={user?.photoURL ? user.photoURL : "https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png"} alt="user photo"/>
       </button>
       {user && <p>logged in</p>}
       <button onClick={logOut}>Log out</button>
