@@ -71,8 +71,8 @@ const MapComponent: React.FC<Result> = () => {
       <NavigationControl position="top-left" />
       <ScaleControl />
       {homes?.map((result: House) => (
-        <div key={result.coordinates._lat}>
-          <Marker longitude={result.coordinates._long} latitude={result.coordinates._lat} anchor="bottom">
+        <div key={result.coordinates?._lat}>
+          <Marker longitude={result.coordinates?._long} latitude={result.coordinates?._lat} anchor="bottom">
             <p
               className="cursor-pointer text-2xl animate-bounce"
               onClick={() => setSelectedHouse(result)}
@@ -81,13 +81,13 @@ const MapComponent: React.FC<Result> = () => {
             </p>
           </Marker>
 
-          {selectedHouse?.coordinates?._long == result.coordinates._long ? (
+          {selectedHouse?.coordinates?._long == result.coordinates?._long ? (
             <Popup
               closeOnClick={false}
               onClose={() => setSelectedHouse({} as House)}
               anchor="top"
-              longitude={result.coordinates._long}
-              latitude={result.coordinates._lat}
+              longitude={result.coordinates?._long}
+              latitude={result.coordinates?._lat}
             >
               <p className="text-xl">waza</p>
             </Popup>
