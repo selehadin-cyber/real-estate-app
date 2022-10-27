@@ -10,6 +10,7 @@ import Map, {
 import { collection, getDocs, query } from "firebase/firestore";
 import { database } from "../config/firebase";
 import data from "../pages/data";
+import GeocoderControl from "../utilities/geocoder-control";
 
 interface Result {
   results?: {
@@ -66,6 +67,8 @@ const MapComponent: React.FC<Result> = () => {
       {...viewport}
       onMove={(evt) => setViewport(evt.viewState as any)}
     >
+      <GeocoderControl mapboxAccessToken={"pk.eyJ1Ijoic2VsYWg0NDE2IiwiYSI6ImNsOHY1NmR1eTBhaTgzcW80NHp1MjRvMjkifQ.TGbUXQquNidfFwgvlNHh8w"} position="top-left" />
+
       <GeolocateControl position="top-left" />
       <FullscreenControl position="top-left" />
       <NavigationControl position="top-left" />
