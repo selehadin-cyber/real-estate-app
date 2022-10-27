@@ -9,7 +9,6 @@ import Map, {
 } from "react-map-gl";
 import { collection, getDocs, query } from "firebase/firestore";
 import { database } from "../config/firebase";
-import data from "../pages/data";
 import GeocoderControl from "../utilities/geocoder-control";
 
 interface Result {
