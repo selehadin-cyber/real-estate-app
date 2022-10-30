@@ -23,16 +23,20 @@ const Navbar = () => {
             </span>
           </a>
           <div className="flex items-center md:order-2 gap-3">
-            <label>
+            <label className="cursor-pointer">
               <input
                 type="checkbox"
                 checked={isDark}
                 onChange={(e) => setIsDark(e.target.checked)}
                 className="hidden"
               />
-              <HiOutlineMoon size={27} id="toggle" color={isDark ? "white": "black"}/>
+              <HiOutlineMoon
+                size={27}
+                id="toggle"
+                color={isDark ? "white" : "black"}
+              />
             </label>
-            
+
             <button
               type="button"
               className="flex mr-3 text-sm bg-gray-800 rounded-full md:mr-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
@@ -104,13 +108,21 @@ const Navbar = () => {
                   </a>
                 </li>
                 <li>
-                  <a
-                    href="#"
-                    className="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
-                    onClick={logOut}
-                  >
-                    Sign out
-                  </a>
+                  {user ? (
+                    <a
+                      href="#"
+                      className="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                      onClick={logOut}
+                    >
+                      Sign out
+                    </a>
+                  ) : (
+                    <div className="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">
+                      <Link href="/signin" onClick={logOut}>
+                        Sign in
+                      </Link>
+                    </div>
+                  )}
                 </li>
               </ul>
             </div>
@@ -151,13 +163,8 @@ const Navbar = () => {
                   Home
                 </a>
               </li>
-              <li>
-                <Link
-                  href="/"
-                  className="block py-2 pr-4 pl-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
-                >
-                  App
-                </Link>
+              <li className="block py-2 pr-4 pl-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">
+                <Link href="/">App</Link>
               </li>
               <li>
                 <a
@@ -167,15 +174,9 @@ const Navbar = () => {
                   About
                 </a>
               </li>
-              
-              
-              <li>
-                <Link
-                  href="/AddListing"
-                  className="block py-2 pr-4 pl-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
-                >
-                  List Your Home
-                </Link>
+
+              <li className="block py-2 pr-4 pl-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">
+                <Link href="/AddListing">List Your Home</Link>
               </li>
             </ul>
           </div>

@@ -10,29 +10,30 @@ import Map, {
 import { collection, getDocs, query } from "firebase/firestore";
 import { database } from "../config/firebase";
 import GeocoderControl from "../utilities/geocoder-control";
+import { useDarkMode } from "../hooks/userDarkMode";
+import mapboxgl from "mapbox-gl";
 
 interface Result {
-  results?: {
+  results: {
     lat: number;
     long: number;
+    coordinates: {
+      _lat: number
+      _long: number
+    }
+    title: string
   }[];
 }
 
 type House = {
-  img: string;
-  location: string;
   title: string;
-  description: string;
-  star: number;
-  price: string;
-  total: string;
   coordinates: {
     _lat: number
     _long: number
   }
 };
 
-const MapComponent: React.FC<Result> = () => {
+const MapComponent: React.FC<Result> = ({results}) => {
   const [homes, setHomes] = useState<House[]>([]);
   const [selectedHouse, setSelectedHouse] = useState({} as House);
   const [viewport, setViewport] = useState({
@@ -42,7 +43,14 @@ const MapComponent: React.FC<Result> = () => {
     bearing: 0,
     pitch: 0,
   });
+
+  const [isDark, setIsDark] = useDarkMode();
+
   console.log(homes);
+
+  useEffect(() => {
+  }, [isDark])
+  
 
   useEffect(() => {
     const base = async () => {
@@ -61,7 +69,7 @@ const MapComponent: React.FC<Result> = () => {
 
   return (
     <Map
-      mapStyle="mapbox://styles/selah4416/cl8y19tzx004q14nrh3xove2s"
+      mapStyle={isDark ? "mapbox://styles/selah4416/cl9v9flls006q15smr34ya1tw": "mapbox://styles/selah4416/cl8y19tzx004q14nrh3xove2s"}
       mapboxAccessToken="pk.eyJ1Ijoic2VsYWg0NDE2IiwiYSI6ImNsOHY1NmR1eTBhaTgzcW80NHp1MjRvMjkifQ.TGbUXQquNidfFwgvlNHh8w"
       {...viewport}
       onMove={(evt) => setViewport(evt.viewState as any)}
@@ -72,7 +80,7 @@ const MapComponent: React.FC<Result> = () => {
       <FullscreenControl position="top-left" />
       <NavigationControl position="top-left" />
       <ScaleControl />
-      {homes?.map((result: House) => (
+      {results?.map((result) => (
         <div key={result.coordinates?._lat}>
           <Marker longitude={result.coordinates?._long} latitude={result.coordinates?._lat} anchor="bottom">
             <p
@@ -91,7 +99,7 @@ const MapComponent: React.FC<Result> = () => {
               longitude={result.coordinates?._long}
               latitude={result.coordinates?._lat}
             >
-              <p className="text-xl">waza</p>
+              <p className="text-xl">{result.title}</p>
             </Popup>
           ) : null}
         </div>

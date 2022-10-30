@@ -12,6 +12,8 @@ import { database } from "../config/firebase";
 import { FormControlLabel } from "@mui/material";
 import { HiOutlineXCircle } from "react-icons/hi2";
 import ListingCard from "../components/ListingCard";
+import Footer from "../components/Footer";
+import { useDarkMode } from "../hooks/userDarkMode";
 
 
 
@@ -28,6 +30,7 @@ const Home: NextPage = () => {
     { id: 1, value: "house", name: "Home", isChecked: false },
     { id: 2, value: "shop", name: "Shop", isChecked: false },
   ]);
+  const [isDark] = useDarkMode();
   const filters = [
     where("for", "==", buyOrSale),
     where("style", "==", style),
@@ -104,10 +107,10 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Navbar />
-      <main className="h-auto w-full flex xs:flex-col-reverse flex-row mt-[72px]">
+      <main className="h-auto w-full flex xs:flex-col-reverse flex-row mt-[63px]">
         <div className="filtersection w-full flex grow xs:flex-col flex-row">
           <section className="left w-full p-5 dark:bg-gray-900">
-            <div className="flex justify-between items-center pb-3">
+            <div className="flex justify-between items-center pb-3 dark:text-white">
               <strong>Filter</strong>
               <div onClick={clearAll} className="flex gap-1.5 cursor-pointer text-gray-700 dark:text-gray-400 dark:hover:text-white">
                 <p>Clear all</p>
@@ -116,10 +119,10 @@ const Home: NextPage = () => {
             </div>
             <div className="type-of-place pb-3">
               <div className="text-gray-700 dark:text-white">TYPE OF PLACE</div>
-              <div className="type-checkboxes">
+              <div className="type-checkboxes dark:text-gray-300">
                 {typeCheckboxes.map((option) => (
                   <FormControlLabel
-                    control={<Checkbox onChange={handleTypeChange} />}
+                    control={<Checkbox className="dark:border-gray-400" onChange={handleTypeChange} />}
                     label={option.name}
                     name={option.value}
                     id={option.id}
@@ -152,10 +155,13 @@ const Home: NextPage = () => {
                   "& .MuiSlider-valueLabel": {
                     backgroundColor: "black",
                   },
+                  "& .MuiSlider-markLabel": {
+                    color: `${isDark ? "white" : "black"}`,
+                  },
                 }}
               />
             </div>
-            <div className="style pb-3">
+            <div className="style pb-3 dark:text-gray-300">
               <p className="text-gray-700 dark:text-white">STYLE</p>
               <FormControlLabel
                 control={<Checkbox onChange={handleStyleChange} />}
@@ -177,7 +183,7 @@ const Home: NextPage = () => {
               <p className="text-gray-700 dark:text-white pb-2">
                 FOR SALE OR FOR RENT
               </p>
-              <select name="" id="" className="w-full bg-transparent border border-gray-900 p-2 rounded-md">
+              <select name="" id="" className="w-full dark:border-gray-300 bg-transparent border border-gray-900 p-2 rounded-md dark:text-gray-400 dark:bg-gray-900">
                 <option value="sale" onClick={(e) => setBuyOrSale("sale")}>
                   Buy
                 </option>
@@ -195,22 +201,12 @@ const Home: NextPage = () => {
             ))}
           </section>
         </div>
-        <div className="map-container xs:h-[60vh] h-screen w-full sm:-mt-6 md:-mt-6 lg:-mt-2 my-auto">
-          <MapComponent />
+        <div className="map-container xs:h-[60vh] h-screen w-full sm:-mt-6 md:-mt-6 lg:-mt-2 my-auto py-5">
+          <MapComponent results={searchResults}/>
         </div>
       </main>
 
-      <footer className="flex h-24 w-full items-center justify-center border-t">
-        <a
-          className="flex items-center justify-center gap-2"
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{" "}
-          <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
-        </a>
-      </footer>
+      <Footer />
     </div>
   );
 };

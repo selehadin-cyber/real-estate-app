@@ -5,7 +5,7 @@ import { doc, GeoPoint, setDoc } from "firebase/firestore";
 import { useForm } from "react-hook-form";
 import { database, storage } from "../config/firebase";
 import Navbar from "../components/Navbar";
-import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import { getDownloadURL, ref, uploadBytes, uploadBytesResumable } from "firebase/storage";
 import { useAuth } from "../context/AuthContext";
 import { User } from "firebase/auth";
 
@@ -31,43 +31,55 @@ const AddListing = () => {
     bearing: 0,
     pitch: 0,
   });
-  const [title, setTitle] = useState("");
-  const [area, setArea] = useState(0);
-  const [bathrooms, setBathrooms] = useState(0);
-  const [bedrooms, setBedrooms] = useState(0);
-  const [address, setAddress] = useState("");
-  const [price, setPrice] = useState(0);
-  const [type, setType] = useState("");
+  const [data, setData] = useState({});
   const [homePics, setHomePics] = useState<File[]>([]);
   const [homePicURLs, setHomePicURLs] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
   const [phoneNumber, setPhoneNumber] = useState(0);
 
+
   const upload = async (file: File, user: User) => {
     const fileRef = ref(storage, `homes/${file.name}` + ".png");
-    setLoading(true);
+    
     const snapShot = await uploadBytes(fileRef, file);
     const photoURL = await getDownloadURL(fileRef);
     setHomePicURLs((prev) => prev.concat(photoURL));
-    setLoading(false);
+    
     console.log("succesfully uploaded");
   };
 
   const onSubmit = async (data: any) => {
-    console.log(homePics);
-    console.log(data);
-    Array.from(homePics).forEach(async (pic) => await upload(pic, user));
-    if (homePicURLs.length > 0) {
-      await setDoc(doc(database, "homes", data.title), {
-        ...data,
-        pictures: homePicURLs,
-        coordinates: new GeoPoint(
-          round5(events.onDrag?.lat),
-          round5(events.onDrag?.lng)
-        ),
-      })
-    } else {console.error("no pic urls")}
-    ;
+
+    const promises = [];
+
+    for (var i = 0; i < homePics.length; i++) {
+        const file = homePics[i];
+        if (file !== null) {
+            const storageRef = ref(storage, `homes/${file.name}` + ".png");
+  
+            promises.push(uploadBytesResumable(storageRef, file).then(uploadResult => {
+                return getDownloadURL(uploadResult.ref)
+            }))
+        }
+  
+    }
+    // Get all the downloadURLs
+    const photos = await Promise.all(promises);
+    
+    // Update Firestore with the URLs array
+    try {
+        await setDoc(doc(database, "homes", data.title), {
+          ...data,
+          pictures: photos,
+          coordinates: new GeoPoint(
+            round5(events.onDrag?.lat),
+            round5(events.onDrag?.lng)
+          ),
+        })
+    } catch (err) {
+        alert(err)
+    }
+  
   };
 
   console.log(homePicURLs);
@@ -152,7 +164,7 @@ const AddListing = () => {
             placeholder="Bathrooms"
             id="bathrooms"
             className="h-9 py-1 px-3 bg-clip-padding rounded-[0.25rem]"
-            {...register("bathrooms", { required: true })}
+            {...register("bathrooms", { required: true, valueAsNumber: true })}
           />
         </div>
         <div className="form-group flex flex-col mb-5 mx-auto w-full">
@@ -162,7 +174,7 @@ const AddListing = () => {
             placeholder="Bedrooms"
             id="bedrooms"
             className="h-9 py-1 px-3 bg-clip-padding rounded-[0.25rem]"
-            {...register("bedrooms", { required: true })}
+            {...register("bedrooms", { required: true, valueAsNumber: true })}
           />
         </div>
         <div className="form-group flex flex-col mb-5 mx-auto w-full">
@@ -182,7 +194,7 @@ const AddListing = () => {
             placeholder="Price"
             id="price"
             className="h-9 py-1 px-3 bg-clip-padding rounded-[0.25rem]"
-            {...register("price", { required: true })}
+            {...register("price", { required: true, valueAsNumber: true })}
           />
         </div>
         <div className="form-group flex flex-col mb-5 mx-auto w-full">

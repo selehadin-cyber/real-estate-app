@@ -23,23 +23,23 @@ const ListingCard: React.FC<Listing> = ({ listing }) => {
 
   return (
     <div className="w-full p-2.5">
-      <div className="image-wrapper relative w-full h-[135px]">
+      <div className="image-wrapper relative w-full overflow-hidden object-cover h-[135px]">
         <Image
-          className="rounded-md"
+          className="rounded-md object-cover"
           layout="fill"
           src={listing.pictures[0]}
         />
       </div>
       <div className="bottom-padding p-1">
           <div className="title-price flex justify-between">
-            <p className="font-bold">{listing.title}</p>
+            <p className="font-bold dark:text-gray-300">{listing.title}</p>
             <p className="text-[#4569f2] font-bold">
               {formatter.format(listing.price)}
             </p>
           </div>
-          <p className="address text-gray-700 text-sm">{listing.address}</p>
+          <p className="address text-gray-700 dark:text-gray-400 text-sm">{listing.address}</p>
           <hr className="my-4 h-px bg-gray-200 border-0 dark:bg-gray-700"/>
-          <div className="flex justify-between text-xs text-gray-700">
+          <div className="flex justify-between text-xs text-gray-700 dark:text-gray-400">
             <div className="flex items-center gap-1.5">
               <div className="icn w-5 h-5 bg-blue-100 rounded-full flex items-center justify-center">
                 <MdKingBed color="#4569f2" />
