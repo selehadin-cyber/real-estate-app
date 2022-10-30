@@ -1,6 +1,7 @@
 import { collection, getDocs, query, where } from "firebase/firestore";
 import Checkbox from "@mui/material/Checkbox";
 import Slider from "@mui/material/Slider";
+import { styled } from "@mui/material/styles";
 import type { NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
@@ -9,6 +10,10 @@ import MapComponent from "../components/Map";
 import Navbar from "../components/Navbar";
 import { database } from "../config/firebase";
 import { FormControlLabel } from "@mui/material";
+import { HiOutlineXCircle } from "react-icons/hi2";
+import ListingCard from "../components/ListingCard";
+
+
 
 const Home: NextPage = () => {
   const [searchResults, setSearchResults] = useState<any[]>([]);
@@ -23,18 +28,33 @@ const Home: NextPage = () => {
     { id: 1, value: "house", name: "Home", isChecked: false },
     { id: 2, value: "shop", name: "Shop", isChecked: false },
   ]);
-  const filters = [ where("for", "==", buyOrSale),
-  where("style", "==", style),
-  where("price", "<", value[1]),
-  where("price", ">", value[0])]
+  const filters = [
+    where("for", "==", buyOrSale),
+    where("style", "==", style),
+    where("price", "<", value[1]),
+    where("price", ">", value[0]),
+  ];
 
-  if (types.length > 0) {filters.push(where("type", "in", types))}
+  const formatter = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+    minimumFractionDigits: 0
+  })
+
+  const marks = [
+    {
+      value: 10,
+      label: '$10',
+    },
+    {
+      value: 900000,
+      label: '$900,000',
+    },
+  ];
 
   useEffect(() => {
     let resultsArray = [] as any[];
-    const populationQuery = query(
-      homesRef, ...filters
-    );
+    const populationQuery = query(homesRef, ...filters);
 
     const queryFunction = async () => {
       const querySnapshot = await getDocs(populationQuery);
@@ -54,23 +74,29 @@ const Home: NextPage = () => {
           prev.filter((element) => element !== event.target.name)
         );
   };
-  console.log(types)
+  console.log(types);
   const handleStyleChange = (event: any) => {
     setChecked(event.target.checked);
-    
-    event.target.checked
-      ? setStyle((prev) => (event.target.name)) : ""
-      
+
+    event.target.checked ? setStyle((prev) => event.target.name) : "";
   };
-  console.log(style)
+  console.log(style);
   const handleRange = (event: Event, newValue: number | number[]) => {
     setValue(newValue as number[]);
     console.log(newValue);
   };
 
   function valuetext(value: number) {
-    return `${value} Lira`;
+    return `${value} Dollars`;
   }
+ 
+  const clearAll = () => {
+    setTypes(prev => [])
+    setValue(prev => [1000, 1000000])
+    setStyle("modern")
+    setBuyOrSale("sale")
+  }
+  
   return (
     <div className="flex min-h-screen flex-col items-center justify-center py-2">
       <Head>
@@ -78,38 +104,59 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Navbar />
-      <main className="h-96 w-full flex">
-        <div className="filtersection w-full flex">
-          <section className="left w-full">
-            <div>Type of place</div>
-            <div className="type-checkboxes">
-              {typeCheckboxes.map((option) => (
-                <FormControlLabel
-                control={
-                  <Checkbox onChange={handleTypeChange} />
-                }
-                label={option.name}
-                name={option.value}
-                id={option.id}
-              />
-              ))}
-              
-              
+      <main className="h-auto w-full flex sm:flex-col-reverse md:flex-row mt-[72px]">
+        <div className="filtersection w-full flex grow sm:flex-col md:flex-row">
+          <section className="left w-full p-5 dark:bg-gray-900">
+            <div className="flex justify-between items-center pb-3">
+              <strong>Filter</strong>
+              <div onClick={clearAll} className="flex gap-1.5 cursor-pointer text-gray-700 dark:text-gray-400 dark:hover:text-white">
+                <p>Clear all</p>
+                <HiOutlineXCircle size={25} />
+              </div>
             </div>
-            <div className="price-range">
-              <p>Price range</p>
+            <div className="type-of-place pb-3">
+              <div className="text-gray-700 dark:text-white">TYPE OF PLACE</div>
+              <div className="type-checkboxes">
+                {typeCheckboxes.map((option) => (
+                  <FormControlLabel
+                    control={<Checkbox onChange={handleTypeChange} />}
+                    label={option.name}
+                    name={option.value}
+                    id={option.id}
+                  />
+                ))}
+              </div>
+            </div>
+            <div className="price-range px-[10px] pb-3">
+              <p className="-ml-[10px] text-gray-700 dark:text-white">
+                PRICE RANGE
+              </p>
               <Slider
                 getAriaLabel={() => "Temperature range"}
+                valueLabelFormat={value => <div>{formatter.format(value)}</div>}
                 value={value}
                 onChange={handleRange}
                 valueLabelDisplay="auto"
                 getAriaValueText={valuetext}
                 min={0}
                 max={1000000}
+                marks={marks}
+                sx={{
+                  color: "#4569f2",
+                  "& .MuiSlider-thumb": {
+                    height: 24,
+                    width: 24,
+                    backgroundColor: "#4569f2",
+                    border: "4px solid white",
+                  },
+                  "& .MuiSlider-valueLabel": {
+                    backgroundColor: "black",
+                  },
+                }}
               />
             </div>
-            <div className="style">
-              <p>Style</p>
+            <div className="style pb-3">
+              <p className="text-gray-700 dark:text-white">STYLE</p>
               <FormControlLabel
                 control={<Checkbox onChange={handleStyleChange} />}
                 label="Modern"
@@ -127,8 +174,10 @@ const Home: NextPage = () => {
               />
             </div>
             <div className="sale-or-rent">
-              <p>For Sale or Rent</p>
-              <select name="" id="">
+              <p className="text-gray-700 dark:text-white pb-2">
+                FOR SALE OR FOR RENT
+              </p>
+              <select name="" id="" className="w-full bg-transparent border border-gray-900 p-2 rounded-md">
                 <option value="sale" onClick={(e) => setBuyOrSale("sale")}>
                   Buy
                 </option>
@@ -138,15 +187,15 @@ const Home: NextPage = () => {
               </select>
             </div>
           </section>
-          <section className="right w-full">
+          <section className="right w-full bg-[#fefefe] dark:bg-gray-900">
             {searchResults.map((result) => (
               <div key={result.address}>
-                <p>{result.address}</p>
+                <ListingCard listing={result}/>
               </div>
             ))}
           </section>
         </div>
-        <div className="map-container h-96 w-full sm:-mt-6 md:-mt-6 lg:-mt-2">
+        <div className="map-container h-screen w-full sm:-mt-6 md:-mt-6 lg:-mt-2 my-auto">
           <MapComponent />
         </div>
       </main>

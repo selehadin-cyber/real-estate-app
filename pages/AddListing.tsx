@@ -15,16 +15,7 @@ const AddListing = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const onSubmit = async (data: any) => {
-    console.log(data);
-    await setDoc(doc(database, "homes", data.title), {
-      ...data,
-      coordinates: new GeoPoint(
-        round5(events.onDrag?.lat),
-        round5(events.onDrag?.lng)
-      ),
-    });
-  };
+  
 
   console.log(errors);
   const { user } = useAuth();
@@ -62,26 +53,23 @@ const AddListing = () => {
     console.log("succesfully uploaded");
   };
 
-  const publishListing = async () => {
-    console.log("publishing");
+  const onSubmit = async (data: any) => {
     console.log(homePics);
-
+    console.log(data);
     Array.from(homePics).forEach(async (pic) => await upload(pic, user));
-    await setDoc(doc(database, "homes", title), {
-      address: address,
-      area: area,
-      bathrooms: bathrooms,
-      bedrooms: bedrooms,
-      price: price,
-      for: type,
-      coordinates: new GeoPoint(
-        round5(events.onDrag?.lat),
-        round5(events.onDrag?.lng)
-      ),
-      pictures: homePicURLs,
-      phone: phoneNumber,
-    });
+    if (homePicURLs.length > 0) {
+      await setDoc(doc(database, "homes", data.title), {
+        ...data,
+        pictures: homePicURLs,
+        coordinates: new GeoPoint(
+          round5(events.onDrag?.lat),
+          round5(events.onDrag?.lng)
+        ),
+      })
+    } else {console.error("no pic urls")}
+    ;
   };
+
   console.log(homePicURLs);
   const onMarkerDragStart = useCallback((event: MarkerDragEvent) => {
     logEvents((_events) => ({ ..._events, onDragStart: event.lngLat }));
@@ -198,11 +186,28 @@ const AddListing = () => {
           />
         </div>
         <div className="form-group flex flex-col mb-5 mx-auto w-full">
-        <label htmlFor="type" className="flex items-center mb-2 dark:text-white text-lg">Proprty Type</label>
+        <label htmlFor="for" className="flex items-center mb-2 dark:text-white text-lg">Proprty Type</label>
+          <select {...register("for", { required: true })}
+          className="h-9 py-1 px-3 bg-clip-padding rounded-[0.25rem]">
+            <option value="sale">For Sale</option>
+            <option value="rent">For Rent</option>
+          </select>
+        </div>
+        <div className="form-group flex flex-col mb-5 mx-auto w-full">
+        <label htmlFor="style" className="flex items-center mb-2 dark:text-white text-lg">Style</label>
+          <select {...register("style", { required: true })}
+          className="h-9 py-1 px-3 bg-clip-padding rounded-[0.25rem]">
+            <option value="modern">Modern</option>
+            <option value="islamic">Islamic</option>
+          </select>
+        </div>
+        <div className="form-group flex flex-col mb-5 mx-auto w-full">
+        <label htmlFor="type" className="flex items-center mb-2 dark:text-white text-lg">Building Type</label>
           <select {...register("type", { required: true })}
           className="h-9 py-1 px-3 bg-clip-padding rounded-[0.25rem]">
-            <option value="For Sale">For Sale</option>
-            <option value="For Rent">For Rent</option>
+            <option value="apartment">Apartment</option>
+            <option value="shop">Shop</option>
+            <option value="house">House</option>
           </select>
         </div>
         <div className="form-group flex flex-col mb-5 mx-auto w-full">
