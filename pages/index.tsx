@@ -104,8 +104,8 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Navbar />
-      <main className="h-auto w-full flex sm:flex-col-reverse md:flex-row mt-[72px]">
-        <div className="filtersection w-full flex grow sm:flex-col md:flex-row">
+      <main className="h-auto w-full flex xs:flex-col-reverse flex-row mt-[72px]">
+        <div className="filtersection w-full flex grow xs:flex-col flex-row">
           <section className="left w-full p-5 dark:bg-gray-900">
             <div className="flex justify-between items-center pb-3">
               <strong>Filter</strong>
@@ -195,7 +195,7 @@ const Home: NextPage = () => {
             ))}
           </section>
         </div>
-        <div className="map-container h-screen w-full sm:-mt-6 md:-mt-6 lg:-mt-2 my-auto">
+        <div className="map-container xs:h-[60vh] h-screen w-full sm:-mt-6 md:-mt-6 lg:-mt-2 my-auto">
           <MapComponent />
         </div>
       </main>

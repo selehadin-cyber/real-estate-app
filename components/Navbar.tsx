@@ -1,3 +1,4 @@
+import Link from "next/link";
 import React from "react";
 import { HiOutlineMoon } from "react-icons/hi2";
 import { useAuth } from "../context/AuthContext";
@@ -32,7 +33,6 @@ const Navbar = () => {
               <HiOutlineMoon size={27} id="toggle" color={isDark ? "white": "black"}/>
             </label>
             
-            {user?.displayName ? <p className="dark:text-white">{user.displayName}</p> : null}
             <button
               type="button"
               className="flex mr-3 text-sm bg-gray-800 rounded-full md:mr-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
@@ -152,6 +152,14 @@ const Navbar = () => {
                 </a>
               </li>
               <li>
+                <Link
+                  href="/"
+                  className="block py-2 pr-4 pl-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
+                >
+                  App
+                </Link>
+              </li>
+              <li>
                 <a
                   href="#"
                   className="block py-2 pr-4 pl-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
@@ -159,29 +167,15 @@ const Navbar = () => {
                   About
                 </a>
               </li>
+              
+              
               <li>
-                <a
-                  href="#"
+                <Link
+                  href="/AddListing"
                   className="block py-2 pr-4 pl-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
                 >
-                  Search
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  className="block py-2 pr-4 pl-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
-                >
-                  Help
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  className="block py-2 pr-4 pl-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
-                >
-                  Blog
-                </a>
+                  List Your Home
+                </Link>
               </li>
             </ul>
           </div>
