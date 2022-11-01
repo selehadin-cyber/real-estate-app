@@ -111,7 +111,7 @@ const AddListing = () => {
   };
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center my-1">
+    <div className="flex min-h-screen flex-col items-center justify-center my-1 dark:bg-gray-900">
       <Navbar />
       <main className="h-96 w-full mt-[-150px]">
         <Map
@@ -136,7 +136,7 @@ const AddListing = () => {
           selected location lng: {round5(events.onDrag?.lng)} lat:{" "}
           {round5(events.onDrag?.lat)}
         </p>
-      <form onSubmit={handleSubmit(onSubmit)} className="p-3 flex flex-col dark:bg-gray-900">
+      <form onSubmit={handleSubmit(onSubmit)} className="addListing p-3 flex flex-col dark:bg-gray-900 max-w-[75vw] mx-auto">
         <div className="form-group flex flex-col mb-5 mx-auto w-full">
           <label htmlFor="Title" className="flex items-center mb-2 dark:text-white text-lg">Title</label>
           <input
@@ -237,7 +237,7 @@ const AddListing = () => {
           />
         </div>
         <div className="mb-3 dark:text-white">Upload pictures <input type="file" name="" id="" multiple={true} onChange={handleChange} /></div>
-        <button disabled={loading || homePics.length == 0} type="submit" className="dark:text-white p-3 bg-green-600" >Publish Listing</button>
+        <button disabled={loading || homePics.length == 0} type="submit" className="dark:text-white p-3 bg-green-600 rounded-md" >Publish Listing</button>
       </form>
         
       </main>

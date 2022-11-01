@@ -14,12 +14,13 @@ interface Listing {
   };
 }
 
+export const formatter = new Intl.NumberFormat("en-US", {
+  style: "currency",
+  currency: "USD",
+  minimumFractionDigits: 0,
+});
+
 const ListingCard: React.FC<Listing> = ({ listing }) => {
-  const formatter = new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: "USD",
-    minimumFractionDigits: 0,
-  });
 
   return (
     <div className="w-full p-2.5">

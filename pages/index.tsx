@@ -101,13 +101,13 @@ const Home: NextPage = () => {
   }
   
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center py-2">
+    <div className="flex min-h-screen flex-col items-center justify-center py-2 dark:bg-gray-900">
       <Head>
         <title>Create Next App</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Navbar />
-      <main className="h-auto w-full flex xs:flex-col-reverse flex-row mt-[63px]">
+      <main className="h-auto w-full flex xs:flex-col-reverse flex-row mt-[63px] dark:bg-gray-900">
         <div className="filtersection w-full flex grow xs:flex-col flex-row">
           <section className="left w-full p-5 dark:bg-gray-900">
             <div className="flex justify-between items-center pb-3 dark:text-white">
@@ -155,9 +155,6 @@ const Home: NextPage = () => {
                   "& .MuiSlider-valueLabel": {
                     backgroundColor: "black",
                   },
-                  "& .MuiSlider-markLabel": {
-                    color: `${isDark ? "white" : "black"}`,
-                  },
                 }}
               />
             </div>
@@ -193,7 +190,7 @@ const Home: NextPage = () => {
               </select>
             </div>
           </section>
-          <section className="right w-full bg-[#fefefe] dark:bg-gray-900">
+          <section className="right w-full bg-[#fefefe] dark:bg-gray-900 h-screen overflow-y-scroll min-w-[282px]">
             {searchResults.map((result) => (
               <div key={result.address}>
                 <ListingCard listing={result}/>
@@ -201,7 +198,7 @@ const Home: NextPage = () => {
             ))}
           </section>
         </div>
-        <div className="map-container xs:h-[60vh] h-screen w-full sm:-mt-6 md:-mt-6 lg:-mt-2 my-auto py-5">
+        <div className="map-container xs:h-[60vh] h-screen w-full sm:-mt-6 md:-mt-6 lg:-mt-2 py-5 dark:bg-gray-900">
           <MapComponent results={searchResults}/>
         </div>
       </main>
