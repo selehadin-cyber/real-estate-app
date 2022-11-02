@@ -108,6 +108,7 @@ const MapComponent: React.FC<Result> = ({ results }) => {
             longitude={result.coordinates?._long}
             latitude={result.coordinates?._lat}
             anchor="bottom"
+            offset={[12, -3]}
           >
             <p
               className="cursor-pointer text-2xl animate-bounce"
@@ -123,7 +124,8 @@ const MapComponent: React.FC<Result> = ({ results }) => {
             <Popup
               closeOnClick={false}
               onClose={() => setSelectedHouse({} as House)}
-              anchor="top"
+              anchor="bottom"
+              offset={[0, -40]}
               longitude={result.coordinates?._long}
               latitude={result.coordinates?._lat}
               className="rounded-lg"

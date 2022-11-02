@@ -15,15 +15,13 @@ import ListingCard from "../components/ListingCard";
 import Footer from "../components/Footer";
 import { useDarkMode } from "../hooks/userDarkMode";
 
-
-
 const Home: NextPage = () => {
   const [searchResults, setSearchResults] = useState<any[]>([]);
   const [checked, setChecked] = useState(true);
   const [types, setTypes] = useState([]);
   const [value, setValue] = useState<number[]>([1000, 1000000]);
   const [buyOrSale, setBuyOrSale] = useState("sale");
-  const [style, setStyle] = useState("modern");
+  const [style, setStyle] = useState("");
   const homesRef = collection(database, "homes");
   const [typeCheckboxes, setTypeCheckboxes] = useState([
     { id: 0, value: "building", name: "Building", isChecked: false },
@@ -31,31 +29,38 @@ const Home: NextPage = () => {
     { id: 2, value: "shop", name: "Shop", isChecked: false },
   ]);
   const [isDark] = useDarkMode();
-  const filters = [
+  let filters = [
     where("for", "==", buyOrSale),
-    where("style", "==", style),
     where("price", "<", value[1]),
     where("price", ">", value[0]),
   ];
 
-  const formatter = new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD',
-    minimumFractionDigits: 0
-  })
+  const formatter = new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+    minimumFractionDigits: 0,
+  });
 
   const marks = [
     {
       value: 10,
-      label: '$10',
+      label: "$10",
     },
     {
       value: 900000,
-      label: '$900,000',
+      label: "$900,000",
     },
   ];
 
   useEffect(() => {
+    if (types.length > 0) {
+      filters.push(where("type", "in", types));
+    }
+    if (style != "") {
+      filters.push(where("style", "==", style));
+    } else {
+      filters = filters.filter((q) => q != where("style", "==", style));
+    }
     let resultsArray = [] as any[];
     const populationQuery = query(homesRef, ...filters);
 
@@ -67,7 +72,7 @@ const Home: NextPage = () => {
       setSearchResults(resultsArray as never[]);
     };
     queryFunction();
-  }, [types, buyOrSale, value, style]);
+  }, [types, buyOrSale, value, style, typeCheckboxes]);
   console.log(buyOrSale);
 
   const handleTypeChange = (event: any) => {
@@ -80,8 +85,7 @@ const Home: NextPage = () => {
   console.log(types);
   const handleStyleChange = (event: any) => {
     setChecked(event.target.checked);
-
-    event.target.checked ? setStyle((prev) => event.target.name) : "";
+    setStyle(event.target.name)
   };
   console.log(style);
   const handleRange = (event: Event, newValue: number | number[]) => {
@@ -92,14 +96,15 @@ const Home: NextPage = () => {
   function valuetext(value: number) {
     return `${value} Dollars`;
   }
- 
+
   const clearAll = () => {
-    setTypes(prev => [])
-    setValue(prev => [1000, 1000000])
-    setStyle("modern")
-    setBuyOrSale("sale")
-  }
-  
+    setTypes([])
+    setValue((prev) => [1000, 1000000]);
+    setStyle("");
+    setBuyOrSale("sale");
+    
+  };
+  console.log(typeCheckboxes)
   return (
     <div className="flex min-h-screen flex-col items-center justify-center py-2 dark:bg-gray-900">
       <Head>
@@ -112,7 +117,10 @@ const Home: NextPage = () => {
           <section className="left w-full p-5 dark:bg-gray-900">
             <div className="flex justify-between items-center pb-3 dark:text-white">
               <strong>Filter</strong>
-              <div onClick={clearAll} className="flex gap-1.5 cursor-pointer text-gray-700 dark:text-gray-400 dark:hover:text-white">
+              <div
+                onClick={clearAll}
+                className="flex gap-1.5 cursor-pointer text-gray-700 dark:text-gray-400 dark:hover:text-white"
+              >
                 <p>Clear all</p>
                 <HiOutlineXCircle size={25} />
               </div>
@@ -122,7 +130,13 @@ const Home: NextPage = () => {
               <div className="type-checkboxes dark:text-gray-300">
                 {typeCheckboxes.map((option) => (
                   <FormControlLabel
-                    control={<Checkbox className="dark:border-gray-400" onChange={handleTypeChange} />}
+                    control={
+                      <Checkbox
+                        className="dark:border-gray-400"
+                        onChange={handleTypeChange}
+                        checked={types.indexOf(option.value as never) != -1}
+                      />
+                    }
                     label={option.name}
                     name={option.value}
                     id={option.id}
@@ -136,7 +150,9 @@ const Home: NextPage = () => {
               </p>
               <Slider
                 getAriaLabel={() => "Temperature range"}
-                valueLabelFormat={value => <div>{formatter.format(value)}</div>}
+                valueLabelFormat={(value) => (
+                  <div>{formatter.format(value)}</div>
+                )}
                 value={value}
                 onChange={handleRange}
                 valueLabelDisplay="auto"
@@ -161,17 +177,17 @@ const Home: NextPage = () => {
             <div className="style pb-3 dark:text-gray-300">
               <p className="text-gray-700 dark:text-white">STYLE</p>
               <FormControlLabel
-                control={<Checkbox onChange={handleStyleChange} />}
+                control={<Checkbox onChange={handleStyleChange} checked={"modern" == style}/>}
                 label="Modern"
                 name="modern"
               />
               <FormControlLabel
-                control={<Checkbox onChange={handleStyleChange} />}
+                control={<Checkbox onChange={handleStyleChange} checked={"islamic" == style}/>}
                 label="Islamic"
                 name="islamic"
               />
               <FormControlLabel
-                control={<Checkbox onChange={handleStyleChange} />}
+                control={<Checkbox onChange={handleStyleChange} checked={"contemporary" == style}/>}
                 label="Contemporary"
                 name="contemporary"
               />
@@ -180,7 +196,11 @@ const Home: NextPage = () => {
               <p className="text-gray-700 dark:text-white pb-2">
                 FOR SALE OR FOR RENT
               </p>
-              <select name="" id="" className="w-full dark:border-gray-300 bg-transparent border border-gray-900 p-2 rounded-md dark:text-gray-400 dark:bg-gray-900">
+              <select
+                name=""
+                id=""
+                className="w-full dark:border-gray-300 bg-transparent border border-gray-900 p-2 rounded-md dark:text-gray-400 dark:bg-gray-900"
+              >
                 <option value="sale" onClick={(e) => setBuyOrSale("sale")}>
                   Buy
                 </option>
@@ -190,16 +210,16 @@ const Home: NextPage = () => {
               </select>
             </div>
           </section>
-          <section className="right w-full bg-[#fefefe] dark:bg-gray-900 h-screen overflow-y-scroll min-w-[282px]">
+          <section className="right w-full bg-[#fefefe] dark:bg-gray-900 h-screen overflow-y-scroll min-w-[282px] scrollbar-thin scrollbar-thumb-rounded-full scrollbar-track-gray-100 scrollbar-thumb-gray-300">
             {searchResults.map((result) => (
               <div key={result.address}>
-                <ListingCard listing={result}/>
+                <ListingCard listing={result} />
               </div>
             ))}
           </section>
         </div>
         <div className="map-container xs:h-[60vh] h-screen w-full sm:-mt-6 md:-mt-6 lg:-mt-2 py-5 dark:bg-gray-900">
-          <MapComponent results={searchResults}/>
+          <MapComponent results={searchResults} />
         </div>
       </main>
 
