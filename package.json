@@ -17,7 +17,9 @@
     "react": "18.1.0",
     "react-dom": "18.1.0",
     "react-hook-form": "^7.38.0",
-    "react-map-gl": "^7.0.19"
+    "react-icons": "^4.6.0",
+    "react-map-gl": "^7.0.19",
+    "tailwind-scrollbar": "^2.0.1"
   },
   "devDependencies": {
     "@types/material-ui": "^0.21.12",

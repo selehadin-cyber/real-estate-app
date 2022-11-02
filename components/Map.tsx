@@ -8,32 +8,47 @@ import Map, {
   GeolocateControl,
 } from "react-map-gl";
 import { collection, getDocs, query } from "firebase/firestore";
+import { BsFillHouseDoorFill } from "react-icons/bs";
+import SvgIcon, { SvgIconProps } from "@mui/material/SvgIcon";
 import { database } from "../config/firebase";
-import data from "../pages/data";
 import GeocoderControl from "../utilities/geocoder-control";
+import { useDarkMode } from "../hooks/userDarkMode";
+import mapboxgl from "mapbox-gl";
+import Image from "next/image";
+import { formatter } from "./ListingCard";
 
 interface Result {
-  results?: {
+  results: {
     lat: number;
     long: number;
+    coordinates: {
+      _lat: number;
+      _long: number;
+    };
+    title: string;
+    pictures: string[];
+    address: string;
+    price: number;
   }[];
 }
 
 type House = {
-  img: string;
-  location: string;
   title: string;
-  description: string;
-  star: number;
-  price: string;
-  total: string;
   coordinates: {
-    _lat: number
-    _long: number
-  }
+    _lat: number;
+    _long: number;
+  };
 };
 
-const MapComponent: React.FC<Result> = () => {
+function HomeIcon(props: SvgIconProps) {
+  return (
+    <SvgIcon {...props}>
+      <path color="#5169ea" d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
+    </SvgIcon>
+  );
+}
+
+const MapComponent: React.FC<Result> = ({ results }) => {
   const [homes, setHomes] = useState<House[]>([]);
   const [selectedHouse, setSelectedHouse] = useState({} as House);
   const [viewport, setViewport] = useState({
@@ -43,7 +58,12 @@ const MapComponent: React.FC<Result> = () => {
     bearing: 0,
     pitch: 0,
   });
+
+  const [isDark, setIsDark] = useDarkMode();
+
   console.log(homes);
+
+  useEffect(() => {}, [isDark]);
 
   useEffect(() => {
     const base = async () => {
@@ -62,25 +82,41 @@ const MapComponent: React.FC<Result> = () => {
 
   return (
     <Map
-      mapStyle="mapbox://styles/selah4416/cl8y19tzx004q14nrh3xove2s"
+      mapStyle={
+        isDark
+          ? "mapbox://styles/selah4416/cl9v9flls006q15smr34ya1tw"
+          : "mapbox://styles/selah4416/cl8y19tzx004q14nrh3xove2s"
+      }
       mapboxAccessToken="pk.eyJ1Ijoic2VsYWg0NDE2IiwiYSI6ImNsOHY1NmR1eTBhaTgzcW80NHp1MjRvMjkifQ.TGbUXQquNidfFwgvlNHh8w"
       {...viewport}
       onMove={(evt) => setViewport(evt.viewState as any)}
     >
-      <GeocoderControl mapboxAccessToken={"pk.eyJ1Ijoic2VsYWg0NDE2IiwiYSI6ImNsOHY1NmR1eTBhaTgzcW80NHp1MjRvMjkifQ.TGbUXQquNidfFwgvlNHh8w"} position="top-left" />
+      <GeocoderControl
+        mapboxAccessToken={
+          "pk.eyJ1Ijoic2VsYWg0NDE2IiwiYSI6ImNsOHY1NmR1eTBhaTgzcW80NHp1MjRvMjkifQ.TGbUXQquNidfFwgvlNHh8w"
+        }
+        position="top-left"
+      />
 
       <GeolocateControl position="top-left" />
       <FullscreenControl position="top-left" />
       <NavigationControl position="top-left" />
       <ScaleControl />
-      {homes?.map((result: House) => (
+      {results?.map((result) => (
         <div key={result.coordinates?._lat}>
-          <Marker longitude={result.coordinates?._long} latitude={result.coordinates?._lat} anchor="bottom">
+          <Marker
+            longitude={result.coordinates?._long}
+            latitude={result.coordinates?._lat}
+            anchor="bottom"
+            offset={[12, -3]}
+          >
             <p
               className="cursor-pointer text-2xl animate-bounce"
               onClick={() => setSelectedHouse(result)}
             >
-              📌
+              <div className="circle w-6 h-6 bg-white flex items-center justify-center">
+                <HomeIcon fontSize="small" />
+              </div>
             </p>
           </Marker>
 
@@ -88,11 +124,28 @@ const MapComponent: React.FC<Result> = () => {
             <Popup
               closeOnClick={false}
               onClose={() => setSelectedHouse({} as House)}
-              anchor="top"
+              anchor="bottom"
+              offset={[0, -40]}
               longitude={result.coordinates?._long}
               latitude={result.coordinates?._lat}
+              className="rounded-lg"
             >
-              <p className="text-xl">waza</p>
+              <div className="popup-container grid grid-cols-3 items-center">
+                <div className="right px-2 my-1 relative w-full h-full">
+                  <Image
+                    className="rounded-md object-cover"
+                    layout="fill"
+                    src={result.pictures[0]}
+                  />
+                </div>
+                <div className="left p-2 col-span-2 ">
+                  <p className="font-bold">{result.title}</p>
+                  <p className="text-gray-400">{result.address}</p>
+                  <p className="text-[#4569f2] font-bold">
+                    {formatter.format(result.price)}
+                  </p>
+                </div>
+              </div>
             </Popup>
           ) : null}
         </div>

@@ -1,3 +1,29 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+html {
+    @apply scrollbar-thin scrollbar-thumb-rounded-full scrollbar-track-gray-100 scrollbar-thumb-[#4569f2] dark:bg-gray-700
+}
+
+.MuiSlider-markLabel {
+    @apply dark:text-white text-black
+}
+.MuiSvgIcon-root {
+    @apply dark:text-white text-black
+}
+.addListing input {
+    @apply bg-gray-200 dark:bg-white
+}
+.circle {
+    border-radius: 50% 50% 50% 0;
+    transform-origin: bottom left;
+    transform: translate(50%, -100%);
+    transform: rotate(-45deg)
+}
+.circle > * {
+    transform: rotate(45deg)
+}
+.mapboxgl-popup-content {
+    @apply p-2
+}
