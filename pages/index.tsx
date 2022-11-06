@@ -80,7 +80,6 @@ const Home: NextPage = () => {
 };
 
 export default Home;
-
 /* export async function getServerSideProps() {
   const results = await fetch("https://jsonkeeper.com/b/5NPS").then(res => res.json())
   console.log(results)
