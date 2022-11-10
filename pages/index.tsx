@@ -1,6 +1,6 @@
 import { collection, getDocs, query, where } from "firebase/firestore";
 import Checkbox from "@mui/material/Checkbox";
-import Slider from "@mui/material/Slider";
+
 import { styled } from "@mui/material/styles";
 import type { NextPage } from "next";
 import Head from "next/head";
@@ -14,8 +14,9 @@ import { HiOutlineXCircle } from "react-icons/hi2";
 import ListingCard from "../components/ListingCard";
 import Footer from "../components/Footer";
 import { useDarkMode } from "../hooks/userDarkMode";
+import Slider, { HomesArray } from "../components/Slider";
 
-const Home: NextPage = () => {
+const Home: NextPage<HomesArray>   = ({homesArray}) => {
   
   return (
     <div className="">
@@ -74,18 +75,29 @@ const Home: NextPage = () => {
           </div>
         </div>
       </section>
+      <section className="bg-[hsl(228,12%,8%)]">
+        <Slider homesArray={homesArray} />
+      </section>
       <Footer />
     </div>
   );
 };
 
 export default Home;
-/* export async function getServerSideProps() {
-  const results = await fetch("https://jsonkeeper.com/b/5NPS").then(res => res.json())
-  console.log(results)
+
+export const getServerSideProps = async () => {
+  const q = query(collection(database, "homes"));
+
+  const querySnapshot = await getDocs(q);
+  const homesArray: any[] = [];
+  querySnapshot.forEach((doc) => {
+    // doc.data() is never undefined for query doc snapshots
+    homesArray.push(doc.data().pictures);
+  });
+
   return {
     props: {
-      results,
-    }
-  } 
-} */
+      homesArray,
+    },
+  };
+};
