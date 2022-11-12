@@ -15,6 +15,7 @@ import ListingCard from "../components/ListingCard";
 import Footer from "../components/Footer";
 import { useDarkMode } from "../hooks/userDarkMode";
 import Slider, { HomesArray } from "../components/Slider";
+import SimpleAccordion from "../components/Accordions";
 
 const Home: NextPage<HomesArray>   = ({homesArray}) => {
   
@@ -78,6 +79,9 @@ const Home: NextPage<HomesArray>   = ({homesArray}) => {
       <section className="bg-[hsl(228,12%,8%)]">
         <Slider homesArray={homesArray} />
       </section>
+      <section className="bg-[hsl(228,12%,8%)]">
+        <SimpleAccordion />
+      </section>
       <Footer />
     </div>
   );
@@ -92,7 +96,7 @@ export const getServerSideProps = async () => {
   const homesArray: any[] = [];
   querySnapshot.forEach((doc) => {
     // doc.data() is never undefined for query doc snapshots
-    homesArray.push(doc.data().pictures);
+    homesArray.push(JSON.parse(JSON.stringify(doc.data())));
   });
 
   return {
