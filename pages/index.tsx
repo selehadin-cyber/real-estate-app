@@ -17,8 +17,7 @@ import { useDarkMode } from "../hooks/userDarkMode";
 import Slider, { HomesArray } from "../components/Slider";
 import SimpleAccordion from "../components/Accordions";
 
-const Home: NextPage<HomesArray>   = ({homesArray}) => {
-  
+const Home: NextPage<HomesArray> = ({ homesArray }) => {
   return (
     <div className="">
       <Head>
@@ -31,7 +30,9 @@ const Home: NextPage<HomesArray>   = ({homesArray}) => {
         <div className="pt-16 grid mx-6 md:grid-cols-2 lg:gap-x-16 gap-y-14 dark:text-white max-w-[1024px]">
           <div className="pb-8">
             <h1 className="text-4xl text-white pb-5 lg:pb-8 lg:text-6xl leading-[120%] font-semibold">
-              Take Your <br/>Home Search<br/> Global
+              Take Your <br />
+              Home Search
+              <br /> Global
             </h1>
             <p className="dark:text-gray-400 mb-8">
               Find a variety of properties that suit you very easily, forget all
@@ -68,7 +69,6 @@ const Home: NextPage<HomesArray>   = ({homesArray}) => {
             <div className="home__orbe 1072:w-[504px] 1072:h-[611px] 1072:rounded-[256px_256px_0_0]"></div>
             <div className="home-img absolute w-[250px] h-[300px] 1072:w-[472px] 1072:h-[634px] lg:rounded-[236px_236px_12px_12px] overflow-hidden rounded-[125px_125px_12px_12px] flex items-end -bottom-6 1072:-bottom-10">
               <img
-                className="max-w-full h-auto"
                 src="https://firebasestorage.googleapis.com/v0/b/ihsan-home.appspot.com/o/homes%2Fhome.jpg?alt=media&token=2ed6fda5-298a-4b47-8f55-8d562c871b2b"
                 alt=""
               />
@@ -80,7 +80,23 @@ const Home: NextPage<HomesArray>   = ({homesArray}) => {
         <Slider homesArray={homesArray} />
       </section>
       <section className="bg-[hsl(228,12%,8%)]">
-        <SimpleAccordion />
+        <div className="container max-w-[1024px] flex gap-20 mx-auto">
+          <div className="left border-[5px] border-gray-500 rounded-tl-full rounded-tr-full relative flex justify-center 1072:max-w-full max-w-[266px]">
+
+            <Image layout="fill" className="rounded-tl-full h-auto rounded-tr-full" src={"https://firebasestorage.googleapis.com/v0/b/ihsan-home.appspot.com/o/value.jpg?alt=media&token=20b27227-99c0-435f-8321-9f63cc0d3352"}></Image>
+          </div>
+          <div className="right w-full flex flex-col">
+            <div>
+              <span className="text-[#4569f2] text-base mb-3">Our Value</span>
+              <h2 className="text-[hsl(228,8%,95%)] text-4xl font-semibold mb-4 mt-1">Value we give to you</h2>
+              <p className="text-gray-400 text-base">
+                We always ready to help by providing the best service for you.
+                We believe a good place to live can make your life better.{" "}
+              </p>
+            </div>
+            <SimpleAccordion />
+          </div>
+        </div>
       </section>
       <Footer />
     </div>
