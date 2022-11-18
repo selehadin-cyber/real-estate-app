@@ -46,7 +46,7 @@ html {
   align-self: flex-end;
 }
 .swiper-slide {
-  width: 320px;
+  width: auto!important;
 }
 .right {
   flex: 1 1 0px;

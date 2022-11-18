@@ -1,19 +1,11 @@
-import { collection, getDocs, query, where } from "firebase/firestore";
-import Checkbox from "@mui/material/Checkbox";
-
-import { styled } from "@mui/material/styles";
+import { collection, getDocs, query } from "firebase/firestore";
+import { HiChevronLeft, HiChevronRight } from "react-icons/hi2";
 import type { NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
-import { ChangeEventHandler, EventHandler, useState, useEffect } from "react";
-import MapComponent from "../components/Map";
 import Navbar from "../components/Navbar";
 import { database } from "../config/firebase";
-import { FormControlLabel } from "@mui/material";
-import { HiOutlineXCircle } from "react-icons/hi2";
-import ListingCard from "../components/ListingCard";
 import Footer from "../components/Footer";
-import { useDarkMode } from "../hooks/userDarkMode";
 import Slider, { HomesArray } from "../components/Slider";
 import SimpleAccordion from "../components/Accordions";
 
@@ -26,7 +18,7 @@ const Home: NextPage<HomesArray> = ({ homesArray }) => {
       </Head>
       <Navbar />
       {/* home section */}
-      <section className="home bg-gradient-bg w-screen mt-[60px] flex items-center justify-center">
+      <section className="home bg-gradient-bg w-full mt-[60px] flex items-center justify-center">
         <div className="pt-16 grid mx-6 md:grid-cols-2 lg:gap-x-16 gap-y-14 dark:text-white max-w-[1024px]">
           <div className="pb-8">
             <h1 className="text-4xl text-white pb-5 lg:pb-8 lg:text-6xl leading-[120%] font-semibold">
@@ -76,13 +68,22 @@ const Home: NextPage<HomesArray> = ({ homesArray }) => {
           </div>
         </div>
       </section>
-      <section className="bg-[hsl(228,12%,8%)]">
-        <Slider homesArray={homesArray} />
+      <section className="bg-[hsl(228,12%,8%)] p-[4.5rem_0_2rem] 1072:p-[7.5rem_0_1rem]">
+        <div className="mx-6">
+          <div className="max-w-[1024px] mx-auto">
+            <p className="text-[#4569f2] text-[13px] 1072:text-base">Global Reach</p>
+            <h2 className="mt-2.5 text-[20px] 1072:text-4xl font-semibold dark:text-white">Some of our listings<span className="text-[#4569f2]">.</span></h2>
+          </div>
+          <Slider homesArray={homesArray} />
+          <div className="slider-buttons mt-7 max-w-[1024px] mx-auto flex items-center justify-center gap-3">
+            <button className="prev dark:text-white w-10 h-10 border-[3px] border-[hsl(228,16%,14%)] rounded-full bg-[hsl(228,16%,12%)] flex items-center justify-center"><HiChevronLeft /></button>
+            <button className="next dark:text-white w-10 h-10 border-[3px] border-[hsl(228,16%,14%)] rounded-full bg-[hsl(228,16%,12%)] flex items-center justify-center"><HiChevronRight /></button>
+          </div>
+        </div>
       </section>
       <section className="bg-[hsl(228,12%,8%)]">
         <div className="container max-w-[1024px] flex gap-20 mx-auto">
           <div className="left border-[5px] border-gray-500 rounded-tl-full rounded-tr-full relative flex justify-center 1072:max-w-full max-w-[266px]">
-
             <Image layout="fill" className="rounded-tl-full h-auto rounded-tr-full" src={"https://firebasestorage.googleapis.com/v0/b/ihsan-home.appspot.com/o/value.jpg?alt=media&token=20b27227-99c0-435f-8321-9f63cc0d3352"}></Image>
           </div>
           <div className="right w-full flex flex-col">
