@@ -76,14 +76,14 @@ const Home: NextPage<HomesArray> = ({ homesArray }) => {
           </div>
           <Slider homesArray={homesArray} />
           <div className="slider-buttons mt-7 max-w-[1024px] mx-auto flex items-center justify-center gap-3">
-            <button className="prev dark:text-white w-10 h-10 border-[3px] border-[hsl(228,16%,14%)] rounded-full bg-[hsl(228,16%,12%)] flex items-center justify-center"><HiChevronLeft /></button>
-            <button className="next dark:text-white w-10 h-10 border-[3px] border-[hsl(228,16%,14%)] rounded-full bg-[hsl(228,16%,12%)] flex items-center justify-center"><HiChevronRight /></button>
+            <button className="prev dark:text-white w-10 h-10 border-[3px] border-[hsl(228,16%,14%)] rounded-full bg-[hsl(228,16%,12%)] flex items-center justify-center"><HiChevronLeft color="#4569f2"/></button>
+            <button className="next dark:text-white w-10 h-10 border-[3px] border-[hsl(228,16%,14%)] rounded-full bg-[hsl(228,16%,12%)] flex items-center justify-center"><HiChevronRight color="#4569f2"/></button>
           </div>
         </div>
       </section>
-      <section className="bg-[hsl(228,12%,8%)]">
-        <div className="container max-w-[1024px] flex gap-20 mx-auto">
-          <div className="left border-[5px] border-gray-500 rounded-tl-full rounded-tr-full relative flex justify-center 1072:max-w-full max-w-[266px]">
+      <section className="bg-[hsl(228,12%,8%)] w-full">
+        <div className="max-w-[1024px] flex xs:flex-col justify-center items-center gap-20 mx-6 1072:mx-auto">
+          <div className="left border-[5px] border-gray-500 rounded-tl-full rounded-tr-full relative flex justify-center 1072:max-w-[461px] 1072:h-[601px] w-[250px] h-[300px] max-w-[266px]">
             <Image layout="fill" className="rounded-tl-full h-auto rounded-tr-full" src={"https://firebasestorage.googleapis.com/v0/b/ihsan-home.appspot.com/o/value.jpg?alt=media&token=20b27227-99c0-435f-8321-9f63cc0d3352"}></Image>
           </div>
           <div className="right w-full flex flex-col">

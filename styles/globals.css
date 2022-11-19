@@ -54,3 +54,8 @@ html {
 .left {
   flex: 1 1 0px;
 }
+@media only screen and (max-width: 852px) {
+  .left {
+      flex: 0 1 auto;
+  }
+}
