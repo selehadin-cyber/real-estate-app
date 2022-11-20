@@ -48,6 +48,7 @@ export const AuthContextProvider = ({
             setDoc(doc(database, 'user', cred.user.uid), {
               userName: displayName,
               fav: [],
+              myListing: [],
             })
           }
         }

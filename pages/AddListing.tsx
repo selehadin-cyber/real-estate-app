@@ -1,8 +1,9 @@
 import React, { useCallback, useState } from "react";
 import { Map, Marker } from "react-map-gl";
 import type { MarkerDragEvent, LngLat } from "react-map-gl";
-import { doc, GeoPoint, setDoc } from "firebase/firestore";
+import { arrayUnion, doc, GeoPoint, setDoc, updateDoc } from "firebase/firestore";
 import { useForm } from "react-hook-form";
+import toast, {Toaster} from 'react-hot-toast'
 import { database, storage } from "../config/firebase";
 import Navbar from "../components/Navbar";
 import { getDownloadURL, ref, uploadBytes, uploadBytesResumable } from "firebase/storage";
@@ -31,11 +32,9 @@ const AddListing = () => {
     bearing: 0,
     pitch: 0,
   });
-  const [data, setData] = useState({});
   const [homePics, setHomePics] = useState<File[]>([]);
   const [homePicURLs, setHomePicURLs] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
-  const [phoneNumber, setPhoneNumber] = useState(0);
 
 
   const upload = async (file: File, user: User) => {
@@ -49,7 +48,19 @@ const AddListing = () => {
   };
 
   const onSubmit = async (data: any) => {
-
+    if (!user) {
+      toast('You need to sign in to publish a home🤔', {
+        style: {
+          background: 'red',
+          color: 'white',
+          fontWeight: 'bolder',
+          fontSize: '17px',
+          padding: '20px',
+        },
+      })
+      console.log("ABORTING")
+      return null
+    }
     const promises = [];
 
     for (var i = 0; i < homePics.length; i++) {
@@ -76,6 +87,27 @@ const AddListing = () => {
             round5(events.onDrag?.lng)
           ),
         })
+        const usersRef = doc(database, 'user', user.uid)
+        await updateDoc(usersRef, {
+          myListing: arrayUnion({
+            ...data,
+            pictures: photos,
+            coordinates: new GeoPoint(
+              round5(events.onDrag?.lat),
+              round5(events.onDrag?.lng)
+            ),
+          }),
+        })
+        toast("Home added to favorites 👏!", {
+          duration: 1000,
+          style: {
+            background: "green",
+            color: "white",
+            fontWeight: "bolder",
+            fontSize: "17px",
+            padding: "20px",
+          },
+        });
     } catch (err) {
         alert(err)
     }
@@ -113,6 +145,7 @@ const AddListing = () => {
   return (
     <div className="flex min-h-screen flex-col items-center justify-center my-1 dark:bg-gray-900">
       <Navbar />
+      <Toaster position="bottom-center" />
       <main className="h-96 w-full mt-[-150px]">
         <Map
           mapStyle="mapbox://styles/selah4416/cl8y19tzx004q14nrh3xove2s"
