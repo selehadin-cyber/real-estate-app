@@ -1,228 +1,104 @@
-import { collection, getDocs, query, where } from "firebase/firestore";
-import Checkbox from "@mui/material/Checkbox";
-import Slider from "@mui/material/Slider";
-import { styled } from "@mui/material/styles";
+import { collection, getDocs, query } from "firebase/firestore";
+import { HiChevronLeft, HiChevronRight } from "react-icons/hi2";
 import type { NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
-import { ChangeEventHandler, EventHandler, useState, useEffect } from "react";
-import MapComponent from "../components/Map";
 import Navbar from "../components/Navbar";
 import { database } from "../config/firebase";
-import { FormControlLabel } from "@mui/material";
-import { HiOutlineXCircle } from "react-icons/hi2";
-import ListingCard from "../components/ListingCard";
 import Footer from "../components/Footer";
-import { useDarkMode } from "../hooks/userDarkMode";
+import Slider, { HomesArray } from "../components/Slider";
+import SimpleAccordion from "../components/Accordions";
 
-const Home: NextPage = () => {
-  const [searchResults, setSearchResults] = useState<any[]>([]);
-  const [checked, setChecked] = useState(true);
-  const [types, setTypes] = useState([]);
-  const [value, setValue] = useState<number[]>([1000, 1000000]);
-  const [buyOrSale, setBuyOrSale] = useState("sale");
-  const [style, setStyle] = useState("");
-  const homesRef = collection(database, "homes");
-  const [typeCheckboxes, setTypeCheckboxes] = useState([
-    { id: 0, value: "building", name: "Building", isChecked: false },
-    { id: 1, value: "house", name: "Home", isChecked: false },
-    { id: 2, value: "shop", name: "Shop", isChecked: false },
-  ]);
-  const [isDark] = useDarkMode();
-  let filters = [
-    where("for", "==", buyOrSale),
-    where("price", "<", value[1]),
-    where("price", ">", value[0]),
-  ];
-
-  const formatter = new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: "USD",
-    minimumFractionDigits: 0,
-  });
-
-  const marks = [
-    {
-      value: 10,
-      label: "$10",
-    },
-    {
-      value: 900000,
-      label: "$900,000",
-    },
-  ];
-
-  useEffect(() => {
-    if (types.length > 0) {
-      filters.push(where("type", "in", types));
-    }
-    if (style != "") {
-      filters.push(where("style", "==", style));
-    } else {
-      filters = filters.filter((q) => q != where("style", "==", style));
-    }
-    let resultsArray = [] as any[];
-    const populationQuery = query(homesRef, ...filters);
-
-    const queryFunction = async () => {
-      const querySnapshot = await getDocs(populationQuery);
-      querySnapshot.forEach((doc) => {
-        resultsArray.push(doc.data());
-      });
-      setSearchResults(resultsArray as never[]);
-    };
-    queryFunction();
-  }, [types, buyOrSale, value, style, typeCheckboxes]);
-  console.log(buyOrSale);
-
-  const handleTypeChange = (event: any) => {
-    event.target.checked
-      ? setTypes((prev) => prev.concat(event.target.name))
-      : setTypes((prev) =>
-          prev.filter((element) => element !== event.target.name)
-        );
-  };
-  console.log(types);
-  const handleStyleChange = (event: any) => {
-    setChecked(event.target.checked);
-    setStyle(event.target.name)
-  };
-  console.log(style);
-  const handleRange = (event: Event, newValue: number | number[]) => {
-    setValue(newValue as number[]);
-    console.log(newValue);
-  };
-
-  function valuetext(value: number) {
-    return `${value} Dollars`;
-  }
-
-  const clearAll = () => {
-    setTypes([])
-    setValue((prev) => [1000, 1000000]);
-    setStyle("");
-    setBuyOrSale("sale");
-    
-  };
-  console.log(typeCheckboxes)
+const Home: NextPage<HomesArray> = ({ homesArray }) => {
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center py-2 dark:bg-gray-900">
+    <div className="">
       <Head>
         <title>Create Next App</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Navbar />
-      <main className="h-auto w-full flex xs:flex-col-reverse flex-row mt-[63px] dark:bg-gray-900">
-        <div className="filtersection w-full flex grow xs:flex-col flex-row">
-          <section className="left w-full p-5 dark:bg-gray-900">
-            <div className="flex justify-between items-center pb-3 dark:text-white">
-              <strong>Filter</strong>
-              <div
-                onClick={clearAll}
-                className="flex gap-1.5 cursor-pointer text-gray-700 dark:text-gray-400 dark:hover:text-white"
-              >
-                <p>Clear all</p>
-                <HiOutlineXCircle size={25} />
+      {/* home section */}
+      <section className="home dark:bg-gradient-bg w-full mt-[60px] flex items-center justify-center">
+        <div className="pt-16 grid mx-6 md:grid-cols-2 lg:gap-x-16 gap-y-14 dark:text-white max-w-[1024px]">
+          <div className="pb-8">
+            <h1 className="text-4xl dark:text-white pb-5 lg:pb-8 lg:text-6xl leading-[120%] font-semibold">
+              Take Your <br />
+              Home Search
+              <br /> Global
+            </h1>
+            <p className="dark:text-gray-400 text-gray-700 mb-8">
+              Find a variety of properties that suit you very easily, forget all
+              difficulties in finding a residence for you{" "}
+            </p>
+            <div className="stats flex items-center justify-start gap-10 w-full">
+              <div>
+                <h1 className="text-2xl lg:text-4xl">
+                  9K <span className="text-[#4569f2]">+</span>
+                </h1>
+                <span className="dark:text-gray-400">
+                  Premium <br></br>Products
+                </span>
+              </div>
+              <div>
+                <h1 className="text-2xl lg:text-4xl">
+                  3K <span className="text-[#4569f2]">+</span>
+                </h1>
+                <span className="dark:text-gray-400">
+                  Awards <br></br>Won
+                </span>
+              </div>
+              <div>
+                <h1 className="text-2xl lg:text-4xl">
+                  37K <span className="text-[#4569f2]">+</span>
+                </h1>
+                <span className="dark:text-gray-400">
+                  Happy <br></br>Customers
+                </span>
               </div>
             </div>
-            <div className="type-of-place pb-3">
-              <div className="text-gray-700 dark:text-white">TYPE OF PLACE</div>
-              <div className="type-checkboxes dark:text-gray-300">
-                {typeCheckboxes.map((option) => (
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        className="dark:border-gray-400"
-                        onChange={handleTypeChange}
-                        checked={types.indexOf(option.value as never) != -1}
-                      />
-                    }
-                    label={option.name}
-                    name={option.value}
-                    id={option.id}
-                  />
-                ))}
-              </div>
-            </div>
-            <div className="price-range px-[10px] pb-3">
-              <p className="-ml-[10px] text-gray-700 dark:text-white">
-                PRICE RANGE
-              </p>
-              <Slider
-                getAriaLabel={() => "Temperature range"}
-                valueLabelFormat={(value) => (
-                  <div>{formatter.format(value)}</div>
-                )}
-                value={value}
-                onChange={handleRange}
-                valueLabelDisplay="auto"
-                getAriaValueText={valuetext}
-                min={0}
-                max={1000000}
-                marks={marks}
-                sx={{
-                  color: "#4569f2",
-                  "& .MuiSlider-thumb": {
-                    height: 24,
-                    width: 24,
-                    backgroundColor: "#4569f2",
-                    border: "4px solid white",
-                  },
-                  "& .MuiSlider-valueLabel": {
-                    backgroundColor: "black",
-                  },
-                }}
+          </div>
+          <div className="home-image relative flex justify-center w-full 1072:w-fit">
+            <div className="home__orbe 1072:w-[504px] 1072:h-[611px] 1072:rounded-[256px_256px_0_0]"></div>
+            <div className="home-img absolute w-[250px] h-[300px] 1072:w-[472px] 1072:h-[634px] lg:rounded-[236px_236px_12px_12px] overflow-hidden rounded-[125px_125px_12px_12px] flex items-end -bottom-6 1072:-bottom-10">
+              <img
+                src="https://firebasestorage.googleapis.com/v0/b/ihsan-home.appspot.com/o/homes%2Fhome.jpg?alt=media&token=2ed6fda5-298a-4b47-8f55-8d562c871b2b"
+                alt=""
               />
             </div>
-            <div className="style pb-3 dark:text-gray-300">
-              <p className="text-gray-700 dark:text-white">STYLE</p>
-              <FormControlLabel
-                control={<Checkbox onChange={handleStyleChange} checked={"modern" == style}/>}
-                label="Modern"
-                name="modern"
-              />
-              <FormControlLabel
-                control={<Checkbox onChange={handleStyleChange} checked={"islamic" == style}/>}
-                label="Islamic"
-                name="islamic"
-              />
-              <FormControlLabel
-                control={<Checkbox onChange={handleStyleChange} checked={"contemporary" == style}/>}
-                label="Contemporary"
-                name="contemporary"
-              />
-            </div>
-            <div className="sale-or-rent">
-              <p className="text-gray-700 dark:text-white pb-2">
-                FOR SALE OR FOR RENT
-              </p>
-              <select
-                name=""
-                id=""
-                className="w-full dark:border-gray-300 bg-transparent border border-gray-900 p-2 rounded-md dark:text-gray-400 dark:bg-gray-900"
-              >
-                <option value="sale" onClick={(e) => setBuyOrSale("sale")}>
-                  Buy
-                </option>
-                <option value="rent" onClick={(e) => setBuyOrSale("rent")}>
-                  Rent
-                </option>
-              </select>
-            </div>
-          </section>
-          <section className="right w-full bg-[#fefefe] dark:bg-gray-900 h-screen overflow-y-scroll min-w-[282px] scrollbar-thin scrollbar-thumb-rounded-full scrollbar-track-gray-100 scrollbar-thumb-gray-300">
-            {searchResults.map((result) => (
-              <div key={result.address}>
-                <ListingCard listing={result} />
-              </div>
-            ))}
-          </section>
+          </div>
         </div>
-        <div className="map-container xs:h-[60vh] h-screen w-full sm:-mt-6 md:-mt-6 lg:-mt-2 py-5 dark:bg-gray-900">
-          <MapComponent results={searchResults} />
+      </section>
+      <section className="dark:bg-[hsl(228,12%,8%)] p-[4.5rem_0_2rem] 1072:p-[7.5rem_0_1rem]">
+        <div className="mx-6">
+          <div className="max-w-[1024px] mx-auto">
+            <p className="text-[#4569f2] text-[13px] 1072:text-base">Global Reach</p>
+            <h2 className="mt-2.5 text-[20px] 1072:text-4xl font-semibold dark:text-white">Some of our listings<span className="text-[#4569f2]">.</span></h2>
+          </div>
+          <Slider homesArray={homesArray} />
+          <div className="slider-buttons mt-7 max-w-[1024px] mx-auto flex items-center justify-center gap-3">
+            <button className="prev dark:text-white w-10 h-10 border-[3px] border-gray-300 dark:border-[hsl(228,16%,14%)] rounded-full dark:bg-[hsl(228,16%,12%)] flex items-center justify-center"><HiChevronLeft color="#4569f2"/></button>
+            <button className="next dark:text-white w-10 h-10 border-[3px] border-gray-300 dark:border-[hsl(228,16%,14%)] rounded-full dark:bg-[hsl(228,16%,12%)] flex items-center justify-center"><HiChevronRight color="#4569f2"/></button>
+          </div>
         </div>
-      </main>
-
+      </section>
+      <section className="dark:bg-[hsl(228,12%,8%)] w-full">
+        <div className="max-w-[1024px] flex xs:flex-col justify-center items-center gap-20 mx-6 1072:mx-auto">
+          <div className="left border-[5px] border-gray-500 rounded-tl-full rounded-tr-full relative flex justify-center 1072:max-w-[461px] 1072:h-[601px] w-[250px] h-[300px] max-w-[266px]">
+            <Image layout="fill" className="rounded-tl-full h-auto rounded-tr-full" src={"https://firebasestorage.googleapis.com/v0/b/ihsan-home.appspot.com/o/value.jpg?alt=media&token=20b27227-99c0-435f-8321-9f63cc0d3352"}></Image>
+          </div>
+          <div className="right self-start w-full flex flex-col">
+            <div>
+              <span className="text-[#4569f2] text-base mb-3">Our Value</span>
+              <h2 className="dark:text-[hsl(228,8%,95%)] text-4xl xs:text-3xl font-semibold mb-4 mt-1">Value we give to you</h2>
+              <p className="dark:text-gray-400 text-gray-700 text-base mb-1">
+                We always ready to help by providing the best service for you.
+                We believe a good place to live can make your life better.{" "}
+              </p>
+            </div>
+            <SimpleAccordion />
+          </div>
+        </div>
+      </section>
       <Footer />
     </div>
   );
@@ -230,12 +106,19 @@ const Home: NextPage = () => {
 
 export default Home;
 
-/* export async function getServerSideProps() {
-  const results = await fetch("https://jsonkeeper.com/b/5NPS").then(res => res.json())
-  console.log(results)
+export const getServerSideProps = async () => {
+  const q = query(collection(database, "homes"));
+
+  const querySnapshot = await getDocs(q);
+  const homesArray: any[] = [];
+  querySnapshot.forEach((doc) => {
+    // doc.data() is never undefined for query doc snapshots
+    homesArray.push(JSON.parse(JSON.stringify(doc.data())));
+  });
+
   return {
     props: {
-      results,
-    }
-  } 
-} */
+      homesArray,
+    },
+  };
+};

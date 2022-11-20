@@ -3,27 +3,62 @@
 @tailwind utilities;
 
 html {
-    @apply scrollbar-thin scrollbar-thumb-rounded-full scrollbar-track-gray-100 scrollbar-thumb-[#4569f2] dark:bg-gray-700
+  @apply scrollbar-thin scrollbar-thumb-rounded-full scrollbar-track-gray-100 scrollbar-thumb-[#4569f2] dark:bg-gray-700;
+}
+.MuiButtonBase-root {
+  @apply rounded-lg
+}
+
+.MuiPaper-root {
+  @apply mb-2 !bg-transparent border-2 rounded-lg rounded-t-lg border-gray-400 dark:text-white shadow-none
 }
 
 .MuiSlider-markLabel {
-    @apply dark:text-white text-black
+  @apply dark:text-white text-black;
 }
 .MuiSvgIcon-root {
-    @apply dark:text-white text-black
+  @apply dark:text-white text-black;
 }
 .addListing input {
-    @apply bg-gray-200 dark:bg-white
+  @apply bg-gray-200 dark:bg-white;
 }
 .circle {
-    border-radius: 50% 50% 50% 0;
-    transform-origin: bottom left;
-    transform: translate(50%, -100%);
-    transform: rotate(-45deg)
+  border-radius: 50% 50% 50% 0;
+  transform-origin: bottom left;
+  transform: translate(50%, -100%);
+  transform: rotate(-45deg);
 }
 .circle > * {
-    transform: rotate(45deg)
+  transform: rotate(45deg);
 }
 .mapboxgl-popup-content {
-    @apply p-2
+  @apply p-2;
+}
+.home__orbe {
+  width: 265px;
+  height: 284px;
+  background: linear-gradient(
+    180deg,
+    hsl(0, 0%, 16%) 93%,
+    hsl(0, 0%, 67%) 100%
+  );
+  border-radius: 135px 135px 0 0;
+  align-self: flex-end;
+}
+.slider-padding {
+  padding-bottom: 20px!important;
+}
+.swiper-slide {
+  width: auto!important;
+}
+.right {
+  flex: 1 1 0px;
+}
+.left {
+  flex: 1 1 0px;
+}
+@media only screen and (max-width: 852px) {
+  .left {
+      flex: 0 1 auto;
+  }
 }

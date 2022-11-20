@@ -135,112 +135,113 @@ const AddListing = () => {
         <p>
           selected location lng: {round5(events.onDrag?.lng)} lat:{" "}
           {round5(events.onDrag?.lat)}
-        </p>
-      <form onSubmit={handleSubmit(onSubmit)} className="addListing p-3 flex flex-col dark:bg-gray-900 max-w-[75vw] mx-auto">
-        <div className="form-group flex flex-col mb-5 mx-auto w-full">
-          <label htmlFor="Title" className="flex items-center mb-2 dark:text-white text-lg">Title</label>
-          <input
-            type="text"
-            placeholder="Title"
-            id="Title"
-            className="h-9 py-1 px-3 bg-clip-padding rounded-[0.25rem]"
-            {...register("title", { required: true })}
-          />
-        </div>
-        <div className="form-group flex flex-col mb-5 mx-auto w-full">
-        <label htmlFor="area" className="flex items-center mb-2 dark:text-white text-lg">Total Area</label>
-          <input
-            type="number"
-            id="area"
-            placeholder="Area"
-            className="h-9 py-1 px-3 bg-clip-padding rounded-[0.25rem]"
-            {...register("area", { required: true })}
-          />
-        </div>
-        <div className="form-group flex flex-col mb-5 mx-auto w-full">
-        <label htmlFor="bathrooms" className="flex items-center mb-2 dark:text-white text-lg">Bathrooms</label>
-          <input
-            type="number"
-            placeholder="Bathrooms"
-            id="bathrooms"
-            className="h-9 py-1 px-3 bg-clip-padding rounded-[0.25rem]"
-            {...register("bathrooms", { required: true, valueAsNumber: true })}
-          />
-        </div>
-        <div className="form-group flex flex-col mb-5 mx-auto w-full">
-        <label htmlFor="bedrooms" className="flex items-center mb-2 dark:text-white text-lg">Bedrooms</label>
-          <input
-            type="number"
-            placeholder="Bedrooms"
-            id="bedrooms"
-            className="h-9 py-1 px-3 bg-clip-padding rounded-[0.25rem]"
-            {...register("bedrooms", { required: true, valueAsNumber: true })}
-          />
-        </div>
-        <div className="form-group flex flex-col mb-5 mx-auto w-full">
-        <label htmlFor="address" className="flex items-center mb-2 dark:text-white text-lg">Address</label>
-          <input
-            type="text"
-            placeholder="Address"
-            id="address"
-            className="h-9 py-1 px-3 bg-clip-padding rounded-[0.25rem]"
-            {...register("address", { required: true })}
-          />
-        </div>
-        <div className="form-group flex flex-col mb-5 mx-auto w-full">
-        <label htmlFor="price" className="flex items-center mb-2 dark:text-white text-lg">Price</label>
-          <input
-            type="number"
-            placeholder="Price"
-            id="price"
-            className="h-9 py-1 px-3 bg-clip-padding rounded-[0.25rem]"
-            {...register("price", { required: true, valueAsNumber: true })}
-          />
-        </div>
-        <div className="form-group flex flex-col mb-5 mx-auto w-full">
-        <label htmlFor="for" className="flex items-center mb-2 dark:text-white text-lg">Proprty Type</label>
-          <select {...register("for", { required: true })}
-          className="h-9 py-1 px-3 bg-clip-padding rounded-[0.25rem]">
-            <option value="sale">For Sale</option>
-            <option value="rent">For Rent</option>
-          </select>
-        </div>
-        <div className="form-group flex flex-col mb-5 mx-auto w-full">
-        <label htmlFor="style" className="flex items-center mb-2 dark:text-white text-lg">Style</label>
-          <select {...register("style", { required: true })}
-          className="h-9 py-1 px-3 bg-clip-padding rounded-[0.25rem]">
-            <option value="modern">Modern</option>
-            <option value="islamic">Islamic</option>
-          </select>
-        </div>
-        <div className="form-group flex flex-col mb-5 mx-auto w-full">
-        <label htmlFor="type" className="flex items-center mb-2 dark:text-white text-lg">Building Type</label>
-          <select {...register("type", { required: true })}
-          className="h-9 py-1 px-3 bg-clip-padding rounded-[0.25rem]">
-            <option value="apartment">Apartment</option>
-            <option value="shop">Shop</option>
-            <option value="house">House</option>
-          </select>
-        </div>
-        <div className="form-group flex flex-col mb-5 mx-auto w-full">
-        <label htmlFor="phone" className="flex items-center mb-2 dark:text-white text-lg">Phone Number</label>
-          <input
-            type="tel"
-            placeholder="Mobile number"
-            id="phone"
-            className="h-9 py-1 px-3 bg-clip-padding rounded-[0.25rem]"
-            {...register("phone", {
-              required: true,
-              minLength: 6,
-              maxLength: 12,
-            })}
-          />
-        </div>
-        <div className="mb-3 dark:text-white">Upload pictures <input type="file" name="" id="" multiple={true} onChange={handleChange} /></div>
-        <button disabled={loading || homePics.length == 0} type="submit" className="dark:text-white p-3 bg-green-600 rounded-md" >Publish Listing</button>
-      </form>
-        
+        </p>  
       </main>
+      <div className="form-container w-full">
+        <form onSubmit={handleSubmit(onSubmit)} className="addListing p-3 flex flex-col dark:bg-gray-900 max-w-[65vw] mx-auto">
+          <div className="form-group flex flex-col mb-5 mx-auto w-full">
+            <label htmlFor="Title" className="flex items-center mb-2 dark:text-white text-lg">Title</label>
+            <input
+              type="text"
+              placeholder="Title"
+              id="Title"
+              className="h-9 py-1 px-3 bg-clip-padding rounded-[0.25rem]"
+              {...register("title", { required: true })}
+            />
+          </div>
+          <div className="form-group flex flex-col mb-5 mx-auto w-full">
+          <label htmlFor="area" className="flex items-center mb-2 dark:text-white text-lg">Total Area</label>
+            <input
+              type="number"
+              id="area"
+              placeholder="Area"
+              className="h-9 py-1 px-3 bg-clip-padding rounded-[0.25rem]"
+              {...register("area", { required: true })}
+            />
+          </div>
+          <div className="form-group flex flex-col mb-5 mx-auto w-full">
+          <label htmlFor="bathrooms" className="flex items-center mb-2 dark:text-white text-lg">Bathrooms</label>
+            <input
+              type="number"
+              placeholder="Bathrooms"
+              id="bathrooms"
+              className="h-9 py-1 px-3 bg-clip-padding rounded-[0.25rem]"
+              {...register("bathrooms", { required: true, valueAsNumber: true })}
+            />
+          </div>
+          <div className="form-group flex flex-col mb-5 mx-auto w-full">
+          <label htmlFor="bedrooms" className="flex items-center mb-2 dark:text-white text-lg">Bedrooms</label>
+            <input
+              type="number"
+              placeholder="Bedrooms"
+              id="bedrooms"
+              className="h-9 py-1 px-3 bg-clip-padding rounded-[0.25rem]"
+              {...register("bedrooms", { required: true, valueAsNumber: true })}
+            />
+          </div>
+          <div className="form-group flex flex-col mb-5 mx-auto w-full">
+          <label htmlFor="address" className="flex items-center mb-2 dark:text-white text-lg">Address</label>
+            <input
+              type="text"
+              placeholder="Address"
+              id="address"
+              className="h-9 py-1 px-3 bg-clip-padding rounded-[0.25rem]"
+              {...register("address", { required: true })}
+            />
+          </div>
+          <div className="form-group flex flex-col mb-5 mx-auto w-full">
+          <label htmlFor="price" className="flex items-center mb-2 dark:text-white text-lg">Price</label>
+            <input
+              type="number"
+              placeholder="Price"
+              id="price"
+              className="h-9 py-1 px-3 bg-clip-padding rounded-[0.25rem]"
+              {...register("price", { required: true, valueAsNumber: true })}
+            />
+          </div>
+          <div className="form-group flex flex-col mb-5 mx-auto w-full">
+          <label htmlFor="for" className="flex items-center mb-2 dark:text-white text-lg">Proprty Type</label>
+            <select {...register("for", { required: true })}
+            className="h-9 py-1 px-3 bg-clip-padding rounded-[0.25rem]">
+              <option value="sale">For Sale</option>
+              <option value="rent">For Rent</option>
+            </select>
+          </div>
+          <div className="form-group flex flex-col mb-5 mx-auto w-full">
+          <label htmlFor="style" className="flex items-center mb-2 dark:text-white text-lg">Style</label>
+            <select {...register("style", { required: true })}
+            className="h-9 py-1 px-3 bg-clip-padding rounded-[0.25rem]">
+              <option value="modern">Modern</option>
+              <option value="islamic">Islamic</option>
+            </select>
+          </div>
+          <div className="form-group flex flex-col mb-5 mx-auto w-full">
+          <label htmlFor="type" className="flex items-center mb-2 dark:text-white text-lg">Building Type</label>
+            <select {...register("type", { required: true })}
+            className="h-9 py-1 px-3 bg-clip-padding rounded-[0.25rem]">
+              <option value="apartment">Apartment</option>
+              <option value="shop">Shop</option>
+              <option value="house">House</option>
+            </select>
+          </div>
+          <div className="form-group flex flex-col mb-5 mx-auto w-full">
+          <label htmlFor="phone" className="flex items-center mb-2 dark:text-white text-lg">Phone Number</label>
+            <input
+              type="tel"
+              placeholder="Mobile number"
+              id="phone"
+              className="h-9 py-1 px-3 bg-clip-padding rounded-[0.25rem]"
+              {...register("phone", {
+                required: true,
+                minLength: 6,
+                maxLength: 12,
+              })}
+            />
+          </div>
+          <div className="mb-3 dark:text-white">Upload pictures <input type="file" name="" id="" multiple={true} onChange={handleChange} /></div>
+          <button disabled={loading || homePics.length == 0} type="submit" className="dark:text-white p-3 bg-green-600 rounded-md" >Publish Listing</button>
+        </form>
+      </div>
     </div>
   );
 };
