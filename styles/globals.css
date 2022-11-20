@@ -10,7 +10,7 @@ html {
 }
 
 .MuiPaper-root {
-  @apply mb-2 bg-transparent border-2 rounded-lg rounded-t-lg border-gray-400 dark:text-white shadow-none
+  @apply mb-2 !bg-transparent border-2 rounded-lg rounded-t-lg border-gray-400 dark:text-white shadow-none
 }
 
 .MuiSlider-markLabel {
