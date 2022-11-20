@@ -83,13 +83,12 @@ const Navbar = () => {
                 </span>
               </div>
               <ul className="py-1" aria-labelledby="user-menu-button">
-                <li>
-                  <a
-                    href="#"
-                    className="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                <li className="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">
+                  <Link
+                    href="/user" 
                   >
-                    Dashboard
-                  </a>
+                    My account
+                  </Link>
                 </li>
                 <li>
                   <a

@@ -16,6 +16,7 @@ import { useDarkMode } from "../hooks/userDarkMode";
 import mapboxgl from "mapbox-gl";
 import Image from "next/image";
 import { formatter } from "./ListingCard";
+import Link from "next/link";
 
 interface Result {
   results: {
@@ -130,22 +131,24 @@ const MapComponent: React.FC<Result> = ({ results }) => {
               latitude={result.coordinates?._lat}
               className="rounded-lg"
             >
-              <div className="popup-container grid grid-cols-3 items-center">
-                <div className="right px-2 my-1 relative w-full h-full">
-                  <Image
-                    className="rounded-md object-cover"
-                    layout="fill"
-                    src={result.pictures[0]}
-                  />
+              <Link href={`/homes/${result.title}`}>
+                <div className="popup-container grid grid-cols-3 items-center">
+                  <div className="right px-2 my-1 relative w-full h-full">
+                    <Image
+                      className="rounded-md object-cover"
+                      layout="fill"
+                      src={result.pictures[0]}
+                    />
+                  </div>
+                  <div className="left p-2 col-span-2 ">
+                    <p className="font-bold">{result.title}</p>
+                    <p className="text-gray-400">{result.address}</p>
+                    <p className="text-[#4569f2] font-bold">
+                      {formatter.format(result.price)}
+                    </p>
+                  </div>
                 </div>
-                <div className="left p-2 col-span-2 ">
-                  <p className="font-bold">{result.title}</p>
-                  <p className="text-gray-400">{result.address}</p>
-                  <p className="text-[#4569f2] font-bold">
-                    {formatter.format(result.price)}
-                  </p>
-                </div>
-              </div>
+              </Link>
             </Popup>
           ) : null}
         </div>
