@@ -10,7 +10,7 @@ html {
 }
 
 .MuiPaper-root {
-  @apply mb-2 bg-transparent border-2 rounded-lg rounded-t-lg border-gray-400 dark:text-white
+  @apply mb-2 bg-transparent border-2 rounded-lg rounded-t-lg border-gray-400 dark:text-white shadow-none
 }
 
 .MuiSlider-markLabel {
@@ -44,6 +44,9 @@ html {
   );
   border-radius: 135px 135px 0 0;
   align-self: flex-end;
+}
+.slider-padding {
+  padding-bottom: 20px!important;
 }
 .swiper-slide {
   width: auto!important;
