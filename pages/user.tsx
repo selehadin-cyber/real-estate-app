@@ -95,7 +95,7 @@ const User = () => {
             </h2>
             <ul className="flex flex-col justify-center items-center">
               {favorites.map((favItem: Home) => (
-                <div className="popup-container w-full 1072:mb-6 mb-4 grid grid-cols-3 items-center">
+                <div className="w-full 1072:mb-6 mb-4 grid grid-cols-3 items-center">
                   <div className="right px-2 my-1 relative w-full h-full">
                     <Image
                       className="rounded-md object-cover"
