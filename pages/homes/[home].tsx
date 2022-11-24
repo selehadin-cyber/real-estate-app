@@ -70,7 +70,7 @@ const HomePage: React.FC<HomeProps> = ({ singleHome }) => {
       /* setFavoriteClicked((prev: boolean) => !prev) */
   };
   return (
-    <div>
+    <div className="dark:bg-gray-900 h-full mb-0">
       <Navbar />
       <Toaster position="bottom-center" />
       <div className="image-wrapper relative w-full overflow-hidden object-cover h-[335px]">

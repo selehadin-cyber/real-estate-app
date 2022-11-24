@@ -83,8 +83,8 @@ const AddListing = () => {
           ...data,
           pictures: photos,
           coordinates: new GeoPoint(
-            round5(events.onDrag?.lat),
-            round5(events.onDrag?.lng)
+            round5(marker.latitude),
+            round5(marker.longitude)
           ),
         })
         const usersRef = doc(database, 'user', user.uid)
@@ -93,8 +93,8 @@ const AddListing = () => {
             ...data,
             pictures: photos,
             coordinates: new GeoPoint(
-              round5(events.onDrag?.lat),
-              round5(events.onDrag?.lng)
+              round5(marker.latitude),
+              round5(marker.longitude)
             ),
           }),
         })
@@ -146,7 +146,7 @@ const AddListing = () => {
     <div className="flex min-h-screen flex-col items-center justify-center my-1 dark:bg-gray-900">
       <Navbar />
       <Toaster position="bottom-center" />
-      <main className="h-96 w-full mt-[-150px]">
+      <main className="h-80 w-full mt-[72px]">
         <Map
           mapStyle="mapbox://styles/selah4416/cl8y19tzx004q14nrh3xove2s"
           mapboxAccessToken="pk.eyJ1Ijoic2VsYWg0NDE2IiwiYSI6ImNsOHY1NmR1eTBhaTgzcW80NHp1MjRvMjkifQ.TGbUXQquNidfFwgvlNHh8w"
@@ -166,8 +166,8 @@ const AddListing = () => {
           </Marker>
         </Map>
         <p>
-          selected location lng: {round5(events.onDrag?.lng)} lat:{" "}
-          {round5(events.onDrag?.lat)}
+          selected location lng: {round5(marker.longitude)} lat:{" "}
+          {round5(marker.latitude)}
         </p>  
       </main>
       <div className="form-container w-full">
@@ -271,7 +271,7 @@ const AddListing = () => {
               })}
             />
           </div>
-          <div className="mb-3 dark:text-white">Upload pictures <input type="file" name="" id="" multiple={true} onChange={handleChange} /></div>
+          <div className="mb-3 dark:text-white flex items-center xs:flex-col"><p className="xs:self-start">Upload pictures</p> <input type="file" className="block m-5 w-full text-sm text-gray-900 border max-w-[50%] xs:max-w-full border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" name="" id="" multiple={true} onChange={handleChange} /></div>
           <button disabled={loading || homePics.length == 0} type="submit" className="dark:text-white p-3 bg-green-600 rounded-md" >Publish Listing</button>
         </form>
       </div>
