@@ -54,7 +54,7 @@ const User = () => {
   }, []);
 
   return (
-    <div className="dark:bg-gray-900">
+    <div className="dark:bg-gray-900 min-h-screen">
       <Navbar />
       <div className="maxWidthContainer 1072:max-w-5xl 1072:mx-auto mx-5">
         <div className="pt-28 w-full flex flex-col items-center justify-center ">

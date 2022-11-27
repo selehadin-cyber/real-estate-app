@@ -210,7 +210,7 @@ const Findhome = () => {
             </select>
           </div>
         </section>
-        <section className="right-section w-full bg-[#fefefe] dark:bg-gray-900 h-screen overflow-y-scroll min-w-[282px] scrollbar-thin scrollbar-thumb-rounded-full scrollbar-track-gray-100 scrollbar-thumb-gray-300">
+        <section className="right-section w-full bg-[#fefefe] dark:bg-gray-900 h-screen overflow-y-scroll min-w-[282px] scrollbar-thin scrollbar-thumb-rounded-full scrollbar-track-gray-100 scrollbar-thumb-gray-300 p-3">
           {searchResults.map((result) => (
             <div key={result.address}>
               <ListingCard listing={result} />

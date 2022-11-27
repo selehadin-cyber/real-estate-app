@@ -8,6 +8,7 @@ import { database } from "../config/firebase";
 import Footer from "../components/Footer";
 import Slider, { HomesArray } from "../components/Slider";
 import SimpleAccordion from "../components/Accordions";
+import CallToAction from "../components/CallToAction";
 
 const Home: NextPage<HomesArray> = ({ homesArray }) => {
   return (
@@ -99,6 +100,7 @@ const Home: NextPage<HomesArray> = ({ homesArray }) => {
           </div>
         </div>
       </section>
+      <CallToAction />
       <Footer />
     </div>
   );

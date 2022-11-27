@@ -12,11 +12,11 @@ const Navbar = () => {
     <div className="w-full fixed top-0 z-50">
       <nav className="bg-white border-gray-200 px-2 sm:px-4 py-2.5 dark:bg-gray-900">
         <div className="container flex flex-wrap justify-between items-center mx-auto ml-0">
-          <a href="https://flowbite.com/" className="flex items-center">
+          <a href="https://ihsanhome.com/" className="flex items-center">
             <img
-              src="https://flowbite.com/docs/images/logo.svg"
-              className="mr-3 h-6 sm:h-9"
-              alt="Flowbite Logo"
+              src="https://firebasestorage.googleapis.com/v0/b/ihsan-home.appspot.com/o/iStock-877235808-removebg-preview.png?alt=media&token=86435df5-86b9-4cf8-acdb-9d7ccf18929b"
+              className="mr-3 h-11 sm:h-11"
+              alt="Ihsanhome Logo"
             ></img>
             <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white">
               IhsanHome
