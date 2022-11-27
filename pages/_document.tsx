@@ -11,7 +11,7 @@ export default function Document() {
         <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1"/>
         <meta property="og:type" content="website" />
         <meta name="og:site_name" content="Ihsan Home"/>
-        <meta property="og:title" content="IhsanHome ,Exellence in real-estate" />
+        <meta property="og:title" content="IhsanHome, Exellence in real-estate" />
         <meta
           name="description"
           property="og:description"
