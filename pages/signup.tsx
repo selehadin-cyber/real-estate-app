@@ -19,8 +19,8 @@ function Copyright(props: any) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
       {'Copyright © '}
-      <Link color="inherit" href="https://ihsanstore.com/">
-        ihsanStore
+      <Link color="inherit" href="/">
+        IhsanHome
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
@@ -110,12 +110,10 @@ export default function SignUp() {
                   autoComplete="new-password"
                 />
               </Grid>
-              <Grid item xs={12}>
-                <FormControlLabel
-                  control={<Checkbox value="allowExtraEmails" color="primary" />}
-                  label="I want to receive inspiration, marketing promotions and updates via email."
-                />
-              </Grid>
+              <div className='flex justify-center items-center gap-2 pl-4 pt-4'>
+              <input id="link-checkbox" type="checkbox" value="" className="w-7 h-7 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>
+              <p>I want to receive inspiration, marketing promotions and updates via email.</p>
+              </div>
             </Grid>
             <Button
               type="submit"
