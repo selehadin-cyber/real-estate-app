@@ -18,7 +18,7 @@ const Home: NextPage<HomesArray> = ({ homesArray }) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Navbar />
-      {/* home section */}
+      {/* home section*/}
       <section className="home dark:bg-gradient-bg w-full mt-[60px] flex items-center justify-center">
         <div className="pt-16 grid mx-6 md:grid-cols-2 lg:gap-x-16 gap-y-14 dark:text-white max-w-[1024px]">
           <div className="pb-8">
