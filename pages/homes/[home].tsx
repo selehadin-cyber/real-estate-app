@@ -1,16 +1,33 @@
-import { arrayUnion, collection, doc, getDocs, query, updateDoc, where } from "firebase/firestore";
+import {
+  arrayUnion,
+  collection,
+  doc,
+  getDocs,
+  query,
+  updateDoc,
+  where,
+} from "firebase/firestore";
 import { GetStaticProps } from "next";
 import Image from "next/image";
 import { ParsedUrlQuery } from "querystring";
-import React  from "react";
+import React, { useState } from "react";
 import { BsHeart } from "react-icons/bs";
 import { MdAspectRatio, MdBathtub, MdKingBed } from "react-icons/md";
-import toast, {Toaster} from 'react-hot-toast'
+import toast, { Toaster } from "react-hot-toast";
 import { formatter } from "../../components/ListingCard";
 import Navbar from "../../components/Navbar";
 import { database } from "../../config/firebase";
 import { useAuth } from "../../context/AuthContext";
+import { Swiper, SwiperSlide } from "swiper/react";
 
+// Import Swiper styles
+import "swiper/css";
+import "swiper/css/free-mode";
+import "swiper/css/navigation";
+import "swiper/css/thumbs";
+
+// import required modules
+import { FreeMode, Navigation, Thumbs } from "swiper";
 
 interface IParams extends ParsedUrlQuery {
   home: string;
@@ -38,36 +55,37 @@ export type Home = {
   phone: string;
 };
 const HomePage: React.FC<HomeProps> = ({ singleHome }) => {
-    const { user } = useAuth();
+  const [thumbsSwiper, setThumbsSwiper] = useState<any>(null);
+  const { user } = useAuth();
   const addFav = async (home: Home) => {
     if (!user) {
-        //error message when a user tries to favorite an item with out loging in
-        toast('You need to sign in to favorite a home🤔', {
-          style: {
-            background: 'red',
-            color: 'white',
-            fontWeight: 'bolder',
-            fontSize: '17px',
-            padding: '20px',
-          },
-        })
-      } else {
-        const usersRef = doc(database, 'user', user.uid)
-        await updateDoc(usersRef, {
-          fav: arrayUnion(home),
-        })
-        toast("Home added to favorites 👏!", {
-          duration: 1000,
-          style: {
-            background: "green",
-            color: "white",
-            fontWeight: "bolder",
-            fontSize: "17px",
-            padding: "20px",
-          },
-        });
-      }
-      /* setFavoriteClicked((prev: boolean) => !prev) */
+      //error message when a user tries to favorite an item with out loging in
+      toast("You need to sign in to favorite a home🤔", {
+        style: {
+          background: "red",
+          color: "white",
+          fontWeight: "bolder",
+          fontSize: "17px",
+          padding: "20px",
+        },
+      });
+    } else {
+      const usersRef = doc(database, "user", user.uid);
+      await updateDoc(usersRef, {
+        fav: arrayUnion(home),
+      });
+      toast("Home added to favorites 👏!", {
+        duration: 1000,
+        style: {
+          background: "green",
+          color: "white",
+          fontWeight: "bolder",
+          fontSize: "17px",
+          padding: "20px",
+        },
+      });
+    }
+    /* setFavoriteClicked((prev: boolean) => !prev) */
   };
   return (
     <div className="dark:bg-gray-900 min-h-screen mb-0">
@@ -75,11 +93,43 @@ const HomePage: React.FC<HomeProps> = ({ singleHome }) => {
       <div className="maxwidth max-w-5xl 1072:mx-auto mx-6 pt-[67px] 1072:pt-[77px]">
         <Toaster position="bottom-center" />
         <div className="image-wrapper relative w-full overflow-hidden object-cover h-[335px]">
-          <Image
+          {/* <Image
             className="rounded-md object-cover"
             layout="fill"
             src={singleHome.pictures[0]}
-          />
+          /> */}
+          <Swiper
+            /* style={{
+              "--swiper-navigation-color": "#fff",
+              "--swiper-pagination-color": "#fff",
+            }} */
+            spaceBetween={10}
+            navigation={true}
+            thumbs={{swiper: thumbsSwiper && !thumbsSwiper.destroyed ? thumbsSwiper : null}}
+            modules={[FreeMode, Navigation, Thumbs]}
+            className="mySwiper2"
+          >
+            {singleHome.pictures?.map((pic) => (
+              <SwiperSlide>
+                <img src={pic} className="rounded-md mt-0 object-cover" />
+              </SwiperSlide>
+            ))}
+          </Swiper>
+          <Swiper
+            onSwiper={setThumbsSwiper as any}
+            spaceBetween={10}
+            slidesPerView={4}
+            freeMode={true}
+            watchSlidesProgress={true}
+            modules={[FreeMode, Navigation, Thumbs]}
+            className="mySwiper"
+          >
+            {singleHome.pictures?.map((pic) => (
+              <SwiperSlide>
+                <img src={pic} className="rounded-md mt-0 object-cover" />
+              </SwiperSlide>
+            ))}
+          </Swiper>
         </div>
         <div className="bottom-padding p-1">
           <div className="title-price flex justify-between">
@@ -115,7 +165,10 @@ const HomePage: React.FC<HomeProps> = ({ singleHome }) => {
         </div>
         <div className="flex w-full justify-between items-center px-5 py-7 1072:px-[150px]">
           <p className="dark:text-white">
-            Contact: <a href={`tel:${singleHome.phone}`} className="text-blue-500">{singleHome.phone}</a>
+            Contact:{" "}
+            <a href={`tel:${singleHome.phone}`} className="text-blue-500">
+              {singleHome.phone}
+            </a>
           </p>
           <button
             onClick={() => addFav(singleHome)}

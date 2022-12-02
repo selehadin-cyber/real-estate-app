@@ -5,6 +5,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import Image from "next/image";
 import { formatter } from "./ListingCard";
+import styled from "styled-components"
 
 export interface HomesArray {
   homesArray: {
@@ -14,6 +15,12 @@ export interface HomesArray {
     address: string
   }[]
 }
+
+const SliderStyle = styled.div`
+.swiper-slide {
+  width: auto!important;
+}
+`
 
 const Slider: React.FC<HomesArray> = ({ homesArray }) => {
 
