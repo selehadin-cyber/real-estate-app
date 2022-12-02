@@ -5,6 +5,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import Image from "next/image";
 import { formatter } from "./ListingCard";
+import styled from "styled-components"
 
 export interface HomesArray {
   homesArray: {
@@ -14,6 +15,12 @@ export interface HomesArray {
     address: string
   }[]
 }
+
+const SliderStyle = styled.div`
+.swiper-slide {
+  width: auto!important;
+}
+`
 
 const Slider: React.FC<HomesArray> = ({ homesArray }) => {
 
@@ -35,7 +42,7 @@ const Slider: React.FC<HomesArray> = ({ homesArray }) => {
     >
       <div className="swiper-wrapper">
         {homesArray.map((home) => (
-          <SwiperSlide className="swiper-slide w-[290px] 1072:w-[320px] swiper-fixed-width-300">
+          <SwiperSlide className="swiper-slide w-[290px] 1072:w-[320px]   ">
             <div className="card-container hover:shadow-[0_12px_16px_hsla(228,66%,45%,.1)] p-3 rounded-2xl w-[290px] 1072:w-[320px] dark:bg-[hsl(228,16%,12%)]">
               <div className="image-wrapper mb-4 relative w-full overflow-hidden object-cover h-[320px]">
                   <Image layout="fill" className="max-w-full h-auto object-cover rounded-2xl" src={home.pictures[0]} />
