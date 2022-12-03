@@ -50,6 +50,7 @@ html {
 }
 .swiper-slide.swiper-fixed-width-300 {
   width: auto!important;
+  background: transparent;
 }
 .swiper-slide {
   width: 100%;
@@ -123,7 +124,6 @@ body {
 
 .swiper {
   width: 100%;
-  height: 300px;
   margin-left: auto;
   margin-right: auto;
 }
