@@ -8,6 +8,7 @@ export default function Document() {
       <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.css" type="text/css"></link>
       <script src="https://unpkg.com/flowbite@1.4.4/dist/flowbite.js"></script>
       <title>Ihsan Home</title>
+        <meta name="theme-color" content="#4569f2" />
         <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1"/>
         <meta property="og:type" content="website" />
         <meta name="og:site_name" content="Ihsan Home"/>
