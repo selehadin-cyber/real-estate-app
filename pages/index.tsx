@@ -3,6 +3,9 @@ import { HiChevronLeft, HiChevronRight } from "react-icons/hi2";
 import type { NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
+import { useEffect } from "react";
+import sr from "../config/ScrollReveal"
+
 import Navbar from "../components/Navbar";
 import { database } from "../config/firebase";
 import Footer from "../components/Footer";
@@ -11,6 +14,52 @@ import SimpleAccordion from "../components/Accordions";
 import CallToAction from "../components/CallToAction";
 
 const Home: NextPage<HomesArray> = ({ homesArray }) => {
+  useEffect(() => {
+    async function animate() {
+      
+        const sr = (await import("scrollreveal")).default
+        sr().reveal('.home-title, .swiper, .call-to-action', {
+          origin: 'top',
+          distance: '60px',
+          duration: 2500,
+          delay: 400,
+          })
+          sr().reveal('.home-description', {
+            origin: 'top',
+            distance: '60px',
+            duration: 2500,
+            delay: 500,
+            })
+          sr().reveal('.home-stats', {
+          origin: 'top',
+          distance: '60px',
+          duration: 2500,
+          delay: 600,
+          })
+          sr().reveal('.home-image', {
+            origin: 'top',
+            distance: '60px',
+            duration: 2500,
+            delay: 800,
+            })
+          sr().reveal('.left', {
+            origin: 'left',
+            distance: '60px',
+            duration: 2500,
+            delay: 800,
+            })
+          sr().reveal('.right', {
+            origin: 'right',
+            distance: '60px',
+            duration: 2500,
+            delay: 800,
+            })
+      
+    }
+    animate()
+  }, [])
+
+  
   return (
     <div className="">
       <Head>
@@ -22,16 +71,16 @@ const Home: NextPage<HomesArray> = ({ homesArray }) => {
       <section className="home dark:bg-gradient-bg w-full mt-[60px] flex items-center justify-center">
         <div className="pt-16 grid mx-6 md:grid-cols-2 lg:gap-x-16 gap-y-14 dark:text-white max-w-[1024px]">
           <div className="pb-8">
-            <h1 className="text-4xl dark:text-white pb-5 lg:pb-8 lg:text-6xl leading-[120%] font-semibold">
+            <h1 className="home-title text-4xl dark:text-white pb-5 lg:pb-8 lg:text-6xl leading-[120%] font-semibold">
               Take Your <br />
               Home Search
               <br /> Global
             </h1>
-            <p className="dark:text-gray-400 text-gray-700 mb-8">
+            <p className="dark:text-gray-400 text-gray-700 mb-8 home-description">
               Find a variety of properties that suit you very easily, forget all
               difficulties in finding a residence for you{" "}
             </p>
-            <div className="stats flex items-center justify-start gap-10 w-full">
+            <div className="home-stats flex items-center justify-start gap-10 w-full">
               <div>
                 <h1 className="text-2xl lg:text-4xl">
                   9K <span className="text-[#4569f2]">+</span>
