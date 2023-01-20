@@ -14,6 +14,8 @@ module.exports = {
       backgroundImage: {
         'gradient-bg':
           "linear-gradient(170deg, rgb(17 24 39) 0%, hsl(0, 0%, 6%) 30%)",
+        'button':
+          "linear-gradient(101deg, hsl(228, 66%, 53%), hsl(228, 66%, 47%))",
       }
     },
   },
