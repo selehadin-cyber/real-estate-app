@@ -12,6 +12,7 @@ import Footer from "../components/Footer";
 import Slider, { HomesArray } from "../components/Slider";
 import SimpleAccordion from "../components/Accordions";
 import CallToAction from "../components/CallToAction";
+import Link from "next/link";
 
 const Home: NextPage<HomesArray> = ({ homesArray }) => {
   useEffect(() => {
@@ -36,6 +37,12 @@ const Home: NextPage<HomesArray> = ({ homesArray }) => {
           duration: 2500,
           delay: 600,
           })
+          sr().reveal('.calltoaction', {
+            origin: 'top',
+            distance: '60px',
+            duration: 2500,
+            delay: 700,
+            })
           sr().reveal('.home-image', {
             origin: 'top',
             distance: '60px',
@@ -80,7 +87,7 @@ const Home: NextPage<HomesArray> = ({ homesArray }) => {
               Find a variety of properties that suit you very easily, forget all
               difficulties in finding a residence for you{" "}
             </p>
-            <div className="home-stats flex items-center justify-start gap-10 w-full">
+            <div className="home-stats mb-8 flex items-center justify-start gap-10 w-full">
               <div>
                 <h1 className="text-2xl lg:text-4xl">
                   9K <span className="text-[#4569f2]">+</span>
@@ -106,6 +113,7 @@ const Home: NextPage<HomesArray> = ({ homesArray }) => {
                 </span>
               </div>
             </div>
+            <Link href={"/findhome"}><button className="calltoaction shadow-[0_4px_8px_hsla(228,66%,45%,.25)] text-white bg-button w-2/3 xs:w-full font-medium text-base max-w-[265px] py-3 px-7 rounded-lg">Find me a home</button></Link>
           </div>
           <div className="home-image relative flex justify-center w-full 1072:w-fit">
             <div className="home__orbe 1072:w-[504px] 1072:h-[611px] 1072:rounded-[256px_256px_0_0]"></div>
