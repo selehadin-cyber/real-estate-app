@@ -114,7 +114,7 @@ const Findhome = () => {
     <Navbar />
     <main className="h-auto w-full flex xs:flex-col-reverse flex-row mt-[63px] dark:bg-gray-900">
       <div className="filtersection w-full flex grow xs:flex-col flex-row">
-        <section className="left w-full p-5 dark:bg-gray-900">
+        <section className="left-side w-full p-5 dark:bg-gray-900">
           <div className="flex justify-between items-center pb-3 dark:text-white">
             <strong>Filter</strong>
             <div
@@ -210,7 +210,7 @@ const Findhome = () => {
             </select>
           </div>
         </section>
-        <section className="right-section w-full bg-[#fefefe] dark:bg-gray-900 h-screen overflow-y-scroll min-w-[282px] scrollbar-thin scrollbar-thumb-rounded-full scrollbar-track-gray-100 scrollbar-thumb-gray-300 p-3">
+        <section className="right-side w-full bg-[#fefefe] dark:bg-gray-900 h-screen overflow-y-scroll min-w-[282px] scrollbar-thin scrollbar-thumb-rounded-full scrollbar-track-gray-100 scrollbar-thumb-gray-300 p-3">
           {searchResults.map((result) => (
             <div key={result.address}>
               <ListingCard listing={result} />
